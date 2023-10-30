@@ -1,0 +1,35 @@
+
+# ====================== Apple related aliases ======================
+
+# Add aliases for showing and hiding hidden files globally
+alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
+alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+
+# ====================== Mounting HPC related aliases ======================
+
+alias mountCosma6='mkdir /Volumes/cosma6 && sshfs -o allow_other -o ssh_command="ssh -i ~/.ssh/id_rsa" dc-rope1@login7.cosma.dur.ac.uk:/cosma6/data/dp004/dc-rope1/ /Volumes/cosma6'
+
+# ====================== Directory aliases ======================
+
+alias .\Uni='/Documents/University/'
+
+# ====================== Python venv aliases ======================
+
+alias synthesizer-env='source /Users/willroper/Documents/University/Synthesizer/synthesizer-env/bin/activate'
+alias teaching-env='source /Users/willroper/Documents/Teaching/teaching-env/bin/activate'
+
+# ====================== LS aliases ======================
+
+# Define an alias to the old ls with -ltr args
+alias ltr='ls -ltr'
+
+# Useful old ls alias
+alias ll='ls -alF'
+
+# Replace ls with exa
+alias ls='exa --icons -F -H --group-directories-first --git -1'
+
+# ====================== Emacs aliases ======================
+
+alias kill-emacs='emacsclient -e "(kill-emacs)"'
+alias start-emacs='emacs --daemon'
