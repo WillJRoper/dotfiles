@@ -1,0 +1,85 @@
+# A script containing any custom function definitions
+
+# Set aliases for specified versions of Python (installed via homebrew)
+use_python() {
+    # Check if a version is provided as an argument
+    if [ -z "$1" ]; then
+        echo "Usage: use_python <version>"
+        return 1
+    fi
+
+    # Extract the version from the argument
+    version="$1"
+    python_exec="/opt/homebrew/bin/python$version"
+
+    # Check if the requested version of Python exists
+    if ! command -v "$python_exec" &> /dev/null; then
+	# It doesn't exist... should we install it?
+        read -p "Python $version not found. Do you want to install it with Homebrew? (y/n): " answer
+        case "$answer" in
+            [yY])
+                brew install python@"$version"
+                if [ $? -ne 0 ]; then
+                    echo "Error: Failed to install Python $version with Homebrew."
+                    return 1
+                fi
+                ;;
+            *)
+                echo "Error: Python $version not found. Aborted."
+                return 1
+                ;;
+        esac
+    fi
+
+    # Define the aliases for Python and Pip
+    alias python="$python_exec"
+    alias pip="/opt/homebrew/bin/pip$version"
+
+    # Inform the user about the aliases
+    echo "Aliases set successfully for Python $version."
+}
+
+# Activate an environment (Stored in ~/envs)
+aenv() {
+    # Check if an environment name is provided as an argument
+    if [ -z "$1" ]; then
+        echo "Usage: activate <environment_name>"
+        return 1
+    fi
+
+    # Extract the environment name from the argument
+    env_name="$1"
+    env_path="$HOME/envs/$env_name"
+
+    # Check if the specified environment exists
+    if [ ! -d "$env_path" ]; then
+        echo "Error: Environment '$env_name' not found in ~/envs/."
+        return 1
+    fi
+
+    # Activate the Python environment
+    source "$env_path/bin/activate" || return 1
+
+    # Update aliases to point to the environment
+    alias python="$env_path/bin/python"
+    alias pip="command $env_path/bin/pip"
+
+    echo "Activated environment '$env_name'."
+}
+
+# Deactivate the current environment and reset python and pip aliases
+denv() {
+# Extract the Python version from the currently activated virtual environment
+    current_python_version=$(python --version 2>&1 | awk '{print $2}')
+
+    # Use the virtualenv's deactivate script
+    deactivate 2>/dev/null
+
+    # Reset aliases to the previously used Python version
+    if [ -n "$current_python_version" ]; then
+        use_python "$current_python_version"
+        echo "Deactivated current environment and switched to Python $current_python_version."
+    else
+        echo "Deactivated current environment. Unable to determine previous Python version."
+    fi
+}
