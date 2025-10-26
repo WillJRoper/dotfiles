@@ -1,0 +1,49 @@
+export PATH="/usr/bin:/usr/local/sbin:$PATH"
+
+# ssh-add --apple-use-keychain ~/.ssh/id_rsa
+
+export METIS_DLL=/usr/local/lib/libmetis.dylib
+
+# Make emacs the default editor for other applications (git etc)
+export EDITOR="/opt/homebrew/bin/nvim"
+
+export PATH="/usr/local/opt/llvm/bin:$PATH"
+
+export STPSF_PATH="/Users/willroper/stpsf-data/"
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Source my aliases
+source ~/dotfiles/.aliases
+
+# Make scripts executable
+chmod +x ~/dotfiles/scripts/clean_py_project_install.sh
+
+# Source my functions
+# source ~/dotfiles/.functions
+
+# Enable smart autocompletion
+[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
+
+# Enable smart command history
+[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
+
+# Make OpenMP findable without jiggery pokery
+export LDFLAGS="-L/opt/homebrew/opt/libomp/lib"
+export CFLAGS="-I/opt/homebrew/opt/libomp/include"
+export CPPFLAGS="-I/opt/homebrew/opt/libomp/include"
+
+# Define API keys for various services
+export SYNTH_BOX_ID="xvdp2up4sy4lhecqxswseefp98fgtspw"
+export SYNTH_BOX_SECRET="qy6wFvTtm8aqtO4U40tHMnC8xqyR9wuv"
+export SYNTH_DEV_TOKEN="6pJ1tJxZHSF7mStZTykLXJWrAK8FG086"
+
+# Overides to point to brew installed tinker (maybe overkill.. but hey)
+export LDFLAGS="-L/opt/homebrew/opt/tcl-tk/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/tcl-tk/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/tcl-tk/lib/pkgconfig"
+export PATH="/opt/homebrew/opt/tcl-tk/bin:$PATH"
+
+source ~/.bashrc
+
+neofetch

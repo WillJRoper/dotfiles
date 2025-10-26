@@ -1,0 +1,16 @@
+{{- $isHPC := false -}}
+{{- $hostname := .chezmoi.hostname -}}
+
+{{/* Detect HPC environments by hostname patterns */}}
+{{- if or (contains "cosma" $hostname) (contains "login" $hostname) (contains "compute" $hostname) (contains "node" $hostname) (contains "hpc" $hostname) -}}
+{{-   $isHPC = true -}}
+{{- end -}}
+
+{{/* Also check for environment variables that indicate HPC */}}
+{{- if or (env "SLURM_JOB_ID") (env "PBS_JOBID") (env "SGE_JOB_ID") (env "SCHEDULER") -}}
+{{-   $isHPC = true -}}
+{{- end -}}
+
+[data]
+    isHPC = {{ $isHPC }}
+    hostname = "{{ $hostname }}"

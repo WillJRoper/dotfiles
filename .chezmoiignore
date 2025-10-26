@@ -1,0 +1,6 @@
+# Ignore these files in the managed directory
+README.md
+LICENSE
+CLAUDE.md
+.DS_Store
+.git/

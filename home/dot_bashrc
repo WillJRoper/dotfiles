@@ -1,0 +1,35 @@
+# Enable the subsequent settings only in interactive sessions
+case $- in
+*i*) ;;
+*) return ;;
+esac
+
+# Set up atuin
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+eval "$(atuin init bash)"
+
+eval "$(thefuck --alias)"
+
+# Evaluate the starship initialisation
+eval "$(starship init bash)"
+
+# Set up pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# Set up zoxide
+eval "$(zoxide init bash)"
+
+# Set up fzf key bindings and fuzzy completion
+eval "$(fzf --bash)"
+
+# Set up bash line editor
+source ~/.local/share/blesh/ble.sh
+if [[ $- == *i* ]]; then # in interactive session
+    set -o vi
+fi
+
+# Set up tmuxifier
+export PATH="$PATH:/Users/willroper/.config/tmuxifier/bin"
+eval "$(tmuxifier init -)"
