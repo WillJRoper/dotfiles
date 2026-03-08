@@ -4,9 +4,28 @@ case $- in
 *) return ;;
 esac
 
+# Set up bash line editor first so atuin can integrate with it
+source ~/.local/share/blesh/ble.sh
+if [[ $- == *i* ]]; then # in interactive session
+    set -o vi
+fi
+
 # Set up atuin
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-eval "$(atuin init bash)"
+
+# Allow re-sourcing ~/.bashrc to refresh atuin settings in-place
+if declare -p preexec_functions >/dev/null 2>&1; then
+    preexec_functions=("${preexec_functions[@]/__atuin_preexec}")
+fi
+if declare -p precmd_functions >/dev/null 2>&1; then
+    precmd_functions=("${precmd_functions[@]/__atuin_precmd}")
+fi
+unset __atuin_initialized
+unset __atuin_bind_ctrl_r
+unset __atuin_bind_up_arrow
+unset -f __atuin_history __atuin_precmd __atuin_preexec __atuin_accept_line __atuin_evaluate_prompt __atuin_clear_prompt __atuin_update_preexec_backend 2>/dev/null
+
+eval "$(atuin init bash | sed 's/__atuin_bind_ctrl_r=false/__atuin_bind_ctrl_r=true/; s/__atuin_bind_up_arrow=false/__atuin_bind_up_arrow=true/')"
 
 eval "$(thefuck --alias)"
 
@@ -23,12 +42,6 @@ eval "$(zoxide init bash)"
 
 # Set up fzf key bindings and fuzzy completion
 eval "$(fzf --bash)"
-
-# Set up bash line editor
-source ~/.local/share/blesh/ble.sh
-if [[ $- == *i* ]]; then # in interactive session
-    set -o vi
-fi
 
 # Set up tmuxifier
 export PATH="$PATH:/Users/willroper/.config/tmuxifier/bin"
