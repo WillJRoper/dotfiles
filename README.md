@@ -55,8 +55,39 @@ My configuration files for bash, prompt styles, aliases, etc., managed with [Che
 - **WezTerm**: Terminal emulator settings with Catppuccin theme
 - **Tmux**: Terminal multiplexer with vim keybindings and plugins
 - **Neovim**: Complete editor configuration
+- **Atuin**: Shell history search configuration
+- **btop**: Terminal system monitor preferences
+- **neofetch**: System summary output preferences
+- **thefuck**: Command correction settings
+- **GitHub CLI**: Non-secret `gh` defaults and aliases
+- **OpenCode**: Agent and MCP configuration
 - **Git**: Global git configuration
 - **Scripts**: Utility scripts including Python project cleanup
+
+### Neovim Documentation
+
+- Main guide: `home/dot_config/nvim/README.md`
+- Lua module map: `home/dot_config/nvim/lua/README.md`
+- Core modules: `home/dot_config/nvim/lua/core/README.md`
+- Plugin modules: `home/dot_config/nvim/lua/plugins/README.md`
+- Utility modules: `home/dot_config/nvim/lua/utils/README.md`
+
+### Config Documentation
+
+- XDG config overview: `home/dot_config/README.md`
+- Starship: `home/dot_config/starship/README.md`
+- Tmux: `home/dot_config/tmux/README.md`
+- WezTerm: `home/dot_config/wezterm/README.md`
+- Atuin: `home/dot_config/atuin/README.md`
+- btop: `home/dot_config/btop/README.md`
+- neofetch: `home/dot_config/neofetch/README.md`
+- thefuck: `home/dot_config/thefuck/README.md`
+- GitHub CLI: `home/dot_config/gh/README.md`
+- OpenCode: `home/dot_config/opencode/README.md`
+
+Chezmoi mapping reminder:
+
+- `home/dot_config/nvim` in this repository is rendered to `~/.config/nvim` on target machines.
 
 ### Key Features
 
