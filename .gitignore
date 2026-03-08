@@ -1,0 +1,15 @@
+# Generated Neovim state
+home/dot_config/nvim/lazy-lock.json
+
+# Assistant-specific local metadata
+CLAUDE.md
+AGENTS.md
+.claude/
+**/CLAUDE.md
+**/AGENTS.md
+**/.claude/
+
+# Runtime/dependency artifacts
+home/dot_config/opencode/node_modules/
+home/dot_config/opencode/bun.lock
+home/dot_config/opencode/package-lock.json

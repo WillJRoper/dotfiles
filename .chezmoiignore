@@ -4,3 +4,10 @@ LICENSE
 CLAUDE.md
 .DS_Store
 .git/
+home/dot_config/nvim/lazy-lock.json
+home/dot_config/nvim/.claude/
+home/dot_config/nvim/AGENTS.md
+home/dot_config/nvim/CLAUDE.md
+home/dot_config/opencode/node_modules/
+home/dot_config/opencode/bun.lock
+home/dot_config/opencode/package-lock.json
