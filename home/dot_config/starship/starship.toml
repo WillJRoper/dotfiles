@@ -1,20 +1,73 @@
 format = """
 [░▒▓](#a3aed2)\
-[  ](bg:#a3aed2 fg:#090c0c)\
+$os\
+$hostname\
 [](bg:#769ff0 fg:#a3aed2)\
 $directory\
 [](fg:#769ff0 bg:#394260)\
 $git_branch\
+$git_state\
+$git_metrics\
 $git_status\
 [](fg:#394260 bg:#212736)\
 $python\
 $rust\
+$c\
+$cmake\
+$kubernetes\
+$openstack\
+$memory_usage\
+$jobs\
 [](fg:#212736)$fill\
 [](fg:#212736)$cmd_duration(bg:#212736 fg:#212736)\
 [](fg:#394260 bg:#212736)$time[](fg:#a3aed2 bg:#394260)\n$character"""
 
 [fill]
 symbol = ' '
+
+[os]
+disabled = false
+style = "bg:#a3aed2 fg:#090c0c"
+format = "[ $symbol ]($style)"
+
+[os.symbols]
+Macos = ""
+Linux = ""
+Ubuntu = "󰕈"
+Debian = ""
+Arch = ""
+Fedora = ""
+NixOS = ""
+Unknown = ""
+
+[hostname]
+ssh_only = true
+style = "bg:#a3aed2 fg:#090c0c"
+format = "[ $hostname ]($style)"
+
+[kubernetes]
+disabled = false
+style = "bg:#212736"
+format = '[[ ⎈ $context( ($namespace)) ](fg:#769ff0 bg:#212736)]($style)'
+detect_files = ["k8s", "kubernetes", "helmfile.yaml", "Chart.yaml", "skaffold.yaml"]
+
+[openstack]
+disabled = false
+style = "bg:#212736"
+
+[memory_usage]
+disabled = false
+threshold = 75
+symbol = "󰍛 "
+style = "bg:#212736"
+format = '[[ $symbol$ram( | $swap) ](fg:#769ff0 bg:#212736)]($style)'
+
+[jobs]
+disabled = false
+symbol = "✦"
+style = "bg:#212736"
+format = '[[ $symbol $number ](fg:#769ff0 bg:#212736)]($style)'
+number_threshold = 1
 
 [directory]
 style = "fg:#e3e5e5 bg:#769ff0"
@@ -40,6 +93,14 @@ format = '[[ $symbol $branch ](fg:#769ff0 bg:#394260)]($style)'
 [git_status]
 style = "bg:#394260"
 format = '[[($all_status$ahead_behind )](fg:#769ff0 bg:#394260)]($style)'
+
+[git_state]
+style = "bg:#394260"
+format = '[[ $state( $progress_current/$progress_total) ](fg:#769ff0 bg:#394260)]($style)'
+
+[git_metrics]
+disabled = false
+format = '[[ +$added(-$deleted) ](fg:#769ff0 bg:#394260)]'
 
 [c]
 symbol = " "
