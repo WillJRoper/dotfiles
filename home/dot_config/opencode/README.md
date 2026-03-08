@@ -1,16 +1,25 @@
 # OpenCode Configuration
 
-This directory contains OpenCode settings and custom agent prompts.
+OpenCode is your local AI coding CLI environment. This directory defines its MCP servers, tool permissions, and agent prompt library.
 
-- Source: `home/dot_config/opencode/opencode.json.tmpl`
-- Target: `~/.config/opencode/opencode.json`
-- Agents: `home/dot_config/opencode/agents/*.md`
+- Docs: https://opencode.ai
+- Source template: `home/dot_config/opencode/opencode.json.tmpl`
+- Installed target: `~/.config/opencode/opencode.json`
+- Agent prompts: `home/dot_config/opencode/agents/*.md`
 
-## Portability
+## `opencode.json.tmpl` Section Guide
 
-`opencode.json` is managed as a Chezmoi template so machine-specific paths are rendered from your home directory by default.
+- template variables (top of file): build portable paths from `{{ .chezmoi.homeDir }}` and optional env overrides.
+- `mcp`: declares local MCP servers (`obsidian`, `arxiv`, `nasa_ads`) and how each is launched.
+- `tools`: per-tool glob permissions/denials.
+- `permission.task`: allows task agents to run.
+- `permission.external_directory`: explicit external path allowlist for tool access.
 
-Optional environment overrides supported by the template:
+## Portability Design
+
+This config is templated so it works across machines without hardcoding `/Users/willroper/...`.
+
+Supported overrides:
 
 - `SECOND_BRAIN_DIR`
 - `ARXIV_STORAGE_DIR`
@@ -18,11 +27,13 @@ Optional environment overrides supported by the template:
 - `JOBS_DIR`
 - `DOCUMENTS_JOBS_DIR`
 
-If these are unset, defaults are derived from `{{ .chezmoi.homeDir }}`.
+If unset, defaults are derived from the current user's home directory.
 
-## Secrets
+## Secrets and Credentials
 
-API tokens remain environment-driven and are not stored in git:
+Secrets are intentionally read from environment variables instead of committed JSON values:
 
 - `OBSIDIAN_API_KEY`, `OBSIDIAN_HOST`, `OBSIDIAN_PORT`
 - `ADS_API_TOKEN`
+
+Do not commit runtime dependency directories (`node_modules`) or lock/runtime artifacts for this config tree.

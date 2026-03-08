@@ -1,25 +1,34 @@
-# Config Directory
+# XDG Configs
 
-This directory contains Chezmoi-managed XDG config sources.
+This directory contains the dotfiles that are installed under `~/.config/`.
 
-- Source in repo: `home/dot_config/...`
-- Destination on machine: `~/.config/...`
+- Repo source: `home/dot_config/...`
+- Installed target: `~/.config/...`
 
-## Managed Components
+## How To Read This Tree
 
-- `nvim/`: Neovim configuration (fully documented in nested READMEs)
-- `starship/`: shell prompt configuration
-- `tmux/`: tmux configuration
-- `wezterm/`: WezTerm terminal configuration
-- `atuin/`: shell history search/sync configuration
-- `btop/`: system monitor configuration
-- `neofetch/`: system information output configuration
-- `thefuck/`: command correction tool settings
-- `gh/`: GitHub CLI defaults (non-secret config only)
-- `opencode/`: OpenCode settings and custom agent definitions
+Each subdirectory has its own README that explains:
 
-## Portability Notes
+- what the tool does,
+- which config file controls behavior,
+- what each major config section means,
+- and what should or should not be committed.
 
-- Files with secrets or machine-bound auth are not tracked (for example `gh/hosts.yml`).
-- Generated runtime state is excluded from version control.
-- Paths that vary by machine should use Chezmoi templates (`*.tmpl`) where needed.
+## Tool Index
+
+- `nvim/`: Neovim editor config (LSP, plugins, keymaps)
+- `starship/`: shell prompt rendering and context modules
+- `tmux/`: terminal multiplexer behavior and plugin setup
+- `wezterm/`: terminal emulator appearance and defaults
+- `atuin/`: shell history search and optional sync
+- `btop/`: terminal system monitor layout and metrics
+- `neofetch/`: shell startup system summary output
+- `thefuck/`: command correction behavior
+- `gh/`: GitHub CLI defaults (non-secret)
+- `opencode/`: OpenCode MCP/tools/agent configuration
+
+## Commit Rules For This Directory
+
+- Commit: deterministic preferences and workflows.
+- Do not commit: auth/session/runtime files (for example `gh/hosts.yml`, caches, lock/runtime artifacts).
+- Use `*.tmpl` when values differ between machines (paths, host-specific settings).
