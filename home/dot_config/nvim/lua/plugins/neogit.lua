@@ -114,7 +114,6 @@ return {
       kind = 'floating', -- Open Neogit in a floating window
       auto_refresh = true, -- Automatically refresh the status buffer
       open_on_diff = false, -- Automatically open diff view on staging
-
       integrations = {
         diffview = true, -- Enable integration with Diffview
       },

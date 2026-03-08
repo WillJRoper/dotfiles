@@ -15,8 +15,7 @@
 --
 -- Usage Notes:
 -- - Use `:Bdelete` to close the current buffer while keeping the window open.
--- - Add a keybinding to quickly close buffers without impacting the window layout:
---   `vim.api.nvim_set_keymap('n', '<leader>q', ':Bdelete<CR>', { noremap = true, silent = true })`
+-- - Buffer close is mapped globally in `lua/core/keymaps.lua` (`<leader>x`).
 -- - `vim-bbye` is highly compatible with plugins that manage buffers, such as bufferline plugins.
 --
 -- This setup is ideal for users who want more control over buffer management and need
@@ -24,13 +23,4 @@
 
 return {
   'moll/vim-bbye',
-  config = function()
-    -- Optional: Keybinding for closing the current buffer without closing the window
-    vim.api.nvim_set_keymap(
-      'n',
-      '<leader>q',
-      ':Bdelete<CR>',
-      { noremap = true, silent = true }
-    )
-  end,
 }

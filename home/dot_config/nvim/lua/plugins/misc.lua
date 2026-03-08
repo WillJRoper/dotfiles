@@ -1,10 +1,6 @@
 -- Standalone plugins with less than 10 lines of config go here
 return {
   {
-    -- Tmux & split window navigation
-    'christoomey/vim-tmux-navigator',
-  },
-  {
     -- Detect tabstop and shiftwidth automatically
     'tpope/vim-sleuth',
   },
@@ -17,7 +13,6 @@ return {
         { '<leader>a', group = '[A]I' },
         { '<leader>c', group = '[C]ode' },
         { '<leader>d', group = '[D]ocument' },
-        { '<leader>f', group = '[F]olding' },
         { '<leader>n', group = '[N]otifications' },
         { '<leader>r', group = '[R]ename' },
         { '<leader>s', group = '[S]earch' },
@@ -29,6 +24,8 @@ return {
         { '<leader>gt', group = '[G]it [T]oggle' },
         { '<leader>x', group = 'Trouble' },
         { '<leader>l', group = '[L]SP' },
+        { '<leader>o', group = '[O]penCode' },
+        { '<leader>z', group = 'Spell' },
       },
     },
   },

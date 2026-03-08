@@ -8,7 +8,7 @@
 --
 -- Key Improvements:
 -- - Uses native Neovim 0.11 LSP configuration
--- - Better Python support with basedpyright instead of pylsp for large repos
+-- - Optimized Python support with minimal pylsp configuration for performance
 -- - Optimized settings for performance in large codebases
 -- - Enhanced capabilities and error handling
 
@@ -39,6 +39,55 @@ return {
     'hrsh7th/cmp-nvim-lsp',
   },
   config = function()
+    -- Auto-install Python LSP dependencies if missing
+    local function ensure_pylsp_dependencies()
+      local function is_installed(cmd)
+        return vim.fn.executable(cmd) == 1
+      end
+      
+      local function install_pylsp()
+        vim.notify("Installing pylsp dependencies...", vim.log.levels.INFO)
+        local install_cmd = "python3 -m pip install python-lsp-server[all] pylsp-mypy"
+        
+        vim.fn.jobstart(install_cmd, {
+          on_exit = function(_, exit_code)
+            if exit_code == 0 then
+              vim.notify("pylsp dependencies installed successfully!", vim.log.levels.INFO)
+              vim.schedule(function()
+                -- Restart LSP for Python files
+                for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+                  if vim.bo[buf].filetype == "python" and vim.api.nvim_buf_is_loaded(buf) then
+                    vim.cmd("LspRestart")
+                    break
+                  end
+                end
+              end)
+            else
+              vim.notify("Failed to install pylsp dependencies", vim.log.levels.ERROR)
+            end
+          end,
+          stdout_buffered = true,
+          stderr_buffered = true,
+        })
+      end
+      
+      -- Check if pylsp is available
+      if not is_installed('pylsp') then
+        -- Ask user before installing
+        vim.ui.select(
+          {'Yes', 'No'}, 
+          { prompt = 'pylsp not found. Install python-lsp-server[all] and pylsp-mypy?' },
+          function(choice)
+            if choice == 'Yes' then
+              install_pylsp()
+            else
+              vim.notify("pylsp not installed. Python LSP features will be limited.", vim.log.levels.WARN)
+            end
+          end
+        )
+      end
+    end
+
     -- Modern LSP setup using Neovim 0.11 features
     
     -- Enhanced capabilities with cmp integration
@@ -55,85 +104,59 @@ return {
         settings = {
           pylsp = {
             plugins = {
-              -- === CORE JEDI FEATURES (pylsp's strength) ===
+              -- === MINIMAL JEDI FEATURES ONLY ===
               jedi_completion = { 
                 enabled = true,
-                include_params = true,
-                include_class_objects = true, -- Enable for full completions
-                include_function_objects = true,
-                fuzzy = true,
-                eager = false, -- Don't preload all modules
-                resolve_at_most = 25, -- Limit for performance
-                cache_for = {"pandas", "numpy", "matplotlib"}, -- Cache common libraries
+                include_params = false, -- Disable for performance
+                include_class_objects = false, -- Disable for performance
+                include_function_objects = false, -- Disable for performance
+                fuzzy = false, -- Disable for performance
+                eager = false,
+                resolve_at_most = 5, -- Very low limit
               },
               jedi_hover = { enabled = true },
-              jedi_references = { enabled = true },
+              jedi_references = { enabled = false }, -- Disable for performance
               jedi_signature_help = { enabled = true },
-              jedi_symbols = { 
-                enabled = true,
-                all_scopes = true, -- Enable full symbol search
-                include_import_symbols = true,
-              },
+              jedi_symbols = { enabled = false }, -- Disable for performance
               jedi_definition = { 
                 enabled = true,
-                follow_imports = true,
-                follow_builtin_imports = true,
+                follow_imports = false, -- Disable for performance
+                follow_builtin_imports = false,
               },
               
-              -- === ROPE FEATURES (refactoring) ===
-              rope_completion = { 
-                enabled = true,
-                eager = false, -- Only when needed
-              },
-              rope_autoimport = { 
-                enabled = true,
-                completions = { enabled = true },
-                code_actions = { enabled = true },
-              },
-              rope_rename = { enabled = true },
+              -- === DISABLE ALL ROPE FEATURES ===
+              rope_completion = { enabled = false },
+              rope_autoimport = { enabled = false },
+              rope_rename = { enabled = false },
               
-              -- === DISABLE LINTING/FORMATTING (ruff handles these) ===
-              pyflakes = { enabled = false }, -- ruff does this better
-              pycodestyle = { enabled = false }, -- ruff does this better
-              mccabe = { enabled = false }, -- ruff does this better
-              pydocstyle = { enabled = false }, -- ruff does this better
-              pylint = { enabled = false }, -- ruff does this better
-              flake8 = { enabled = false }, -- ruff does this better
+              -- === DISABLE ALL LINTING/FORMATTING ===
+              pyflakes = { enabled = false },
+              pycodestyle = { enabled = false },
+              mccabe = { enabled = false },
+              pydocstyle = { enabled = false },
+              pylint = { enabled = false },
+              flake8 = { enabled = false },
+              yapf = { enabled = false },
+              autopep8 = { enabled = false },
+              black = { enabled = false },
+              isort = { enabled = false },
               
-              yapf = { enabled = false }, -- ruff does this better
-              autopep8 = { enabled = false }, -- ruff does this better
-              black = { enabled = false }, -- ruff does this better
-              isort = { enabled = false }, -- ruff does this better
+              -- === DISABLE RUFF INTEGRATION ===
+              ruff = { enabled = false }, -- Use separate ruff LSP instead
               
-              -- === RUFF INTEGRATION ===
-              ruff = { 
-                enabled = true,
-                formatEnabled = true,
-                lineLength = 79,
-                config = '~/.config/nvim/ruff.toml',
-                cache = true,
-                preview = false,
-              },
-              
-              -- === ADDITIONAL PYLSP FEATURES ===
-              preload = {
-                enabled = true,
-                modules = {"numpy", "pandas", "matplotlib", "scipy", "astropy"},
-              },
-              folding = { enabled = true },
-              
-              -- === MYPY INTEGRATION ===
-              pylsp_mypy = { 
-                enabled = true,
-                live_mode = true,
-                strict = false,
-                overrides = {"--ignore-missing-imports", true},
-                dmypy = true, -- Use daemon for faster checking
-              },
+              -- === DISABLE ALL ADDITIONAL FEATURES ===
+              preload = { enabled = false },
+              folding = { enabled = false },
+              pylsp_mypy = { enabled = false },
             },
           },
         },
-        -- Remove performance restrictions for full features
+        -- Balanced performance settings
+        flags = {
+          debounce_text_changes = 150, -- Responsive but not overwhelming
+          allow_incremental_sync = true, -- Better performance on large files
+        },
+        timeout_ms = 10000, -- 10 second timeout
         filetypes = { "python" },
         single_file_support = true,
       },
@@ -150,7 +173,7 @@ return {
         },
       },
 
-      -- C/C++
+      -- C/C++ - clangd with init_options added back
       clangd = {
         cmd = {
           'clangd',
@@ -159,25 +182,18 @@ return {
           '--header-insertion=iwyu',
           '--completion-style=detailed',
           '--function-arg-placeholders',
-          '--fallback-style=Google', -- Match SWIFT config
+          '--fallback-style=none',
         },
         filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
-        root_dir = function(fname)
-          return vim.fs.dirname(vim.fs.find({
-            'Makefile',
-            'configure.ac',
-            'configure.in',
-            'config.h.in',
-            'meson.build',
-            'meson_options.txt',
-            'build.ninja',
-            'compile_commands.json',
-            '.clangd',
-          }, { upward = true, path = fname })[1])
-        end,
+        -- root_dir removed - was causing "File exists" conflicts
         capabilities = vim.tbl_extend('force', capabilities, {
           offsetEncoding = { 'utf-16' },
         }),
+        -- Disable clangd formatting - none-ls handles it with proper .clang-format support
+        on_attach = function(client, bufnr)
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
+        end,
         init_options = {
           usePlaceholders = true,
           completeUnimported = true,
@@ -366,28 +382,33 @@ return {
       }
     })
 
-    -- Ensure servers are installed
-    local ensure_installed = {}
+    -- Ensure LSP servers are installed (server names are lspconfig IDs)
+    local lsp_ensure_installed = {}
     for server, config in pairs(servers) do
       if config.enabled ~= false then
-        table.insert(ensure_installed, server)
+        table.insert(lsp_ensure_installed, server)
       end
     end
-    
-    -- Add additional tools
-    vim.list_extend(ensure_installed, {
-      'stylua',        -- Lua formatter
-      'clang-format',  -- C/C++ formatter
-      'prettier',      -- JS/HTML/CSS formatter
-      'black',         -- Python formatter (backup)
-      'ruff',          -- Python linter/formatter
-      'mypy',          -- Python type checker
-      'shellcheck',    -- Shell script linter
-      'shfmt',         -- Shell formatter
+
+    require('mason-lspconfig').setup({
+      ensure_installed = lsp_ensure_installed,
+      automatic_installation = false,
     })
 
+    -- Ensure non-LSP tools are installed (mason package names)
     require('mason-tool-installer').setup({
-      ensure_installed = ensure_installed,
+      ensure_installed = {
+        'stylua',
+        'clang-format',
+        'prettier',
+        'black',
+        'ruff',
+        'mypy',
+        'shellcheck',
+        'shfmt',
+        'checkmake',
+        'cspell',
+      },
       auto_update = false,
       run_on_start = true,
     })
@@ -408,6 +429,12 @@ return {
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         if not client then return end
 
+        -- Disable clangd formatting to prevent conflicts with conform.nvim
+        if client.name == 'clangd' then
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
+        end
+
         -- Navigation
         map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
         map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -427,12 +454,15 @@ return {
         map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
         map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
-        -- Formatting
-        if client.supports_method(vim.lsp.protocol.Methods.textDocument_formatting) then
-          map('<leader>lf', function()
+        -- Formatting (conform.nvim handles formatter selection; falls back to LSP)
+        map('<leader>lf', function()
+          local ok, conform = pcall(require, 'conform')
+          if ok then
+            conform.format({ async = true, lsp_fallback = true })
+          else
             vim.lsp.buf.format({ async = true })
-          end, '[L]SP [F]ormat')
-        end
+          end
+        end, '[L]SP [F]ormat')
 
         -- Inlay hints
         if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
@@ -464,6 +494,8 @@ return {
             end,
           })
         end
+
+        -- Format on save disabled here - none-ls handles it to avoid conflicts
       end,
     })
 
@@ -471,6 +503,11 @@ return {
     vim.api.nvim_create_autocmd('FileType', {
       group = vim.api.nvim_create_augroup('lsp-auto-enable', { clear = true }),
       callback = function(event)
+        -- Check for Python LSP dependencies when opening Python files
+        if event.match == 'python' then
+          ensure_pylsp_dependencies()
+        end
+        
         local filetype_to_server = {
           python = { 'pylsp', 'ruff' },
           c = { 'clangd' },

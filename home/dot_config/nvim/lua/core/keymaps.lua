@@ -12,7 +12,7 @@ local opts = { noremap = true, silent = true }
 vim.keymap.set('n', '<C-s>', '<cmd> w <CR>', opts)
 
 -- save file without auto-formatting
-vim.keymap.set('n', '<leader>sn', '<cmd>noautocmd w <CR>', opts)
+vim.keymap.set('n', '<leader>ww', '<cmd>noautocmd w <CR>', opts)
 
 -- quit file
 vim.keymap.set('n', '<C-q>', '<cmd> q <CR>', opts)
@@ -68,13 +68,17 @@ vim.keymap.set('v', 'p', '"_dP', opts)
 vim.keymap.set(
   'n',
   '[d',
-  vim.diagnostic.goto_prev,
+  function()
+    vim.diagnostic.jump { count = -1 }
+  end,
   { desc = 'Go to previous diagnostic message' }
 )
 vim.keymap.set(
   'n',
   ']d',
-  vim.diagnostic.goto_next,
+  function()
+    vim.diagnostic.jump { count = 1 }
+  end,
   { desc = 'Go to next diagnostic message' }
 )
 vim.keymap.set(

@@ -85,49 +85,6 @@ return {
       },
     }
 
-    -- Custom fold queries for C/C++ to properly fold function bodies
-    vim.api.nvim_create_autocmd('FileType', {
-      pattern = { 'c', 'cpp' },
-      callback = function()
-        local lang = vim.bo.filetype
-        if require("nvim-treesitter.parsers").has_parser(lang) then
-          local folds_query = [[
-            [
-              (function_definition)
-              (struct_specifier)
-              (enum_specifier)
-              (union_specifier)
-              (if_statement)
-              (for_statement)
-              (while_statement)
-              (switch_statement)
-              (case_statement)
-              (compound_statement)
-            ] @fold
-          ]]
-          
-          if lang == "cpp" then
-            folds_query = [[
-              [
-                (function_definition)
-                (class_specifier)
-                (struct_specifier)
-                (enum_specifier)
-                (union_specifier)
-                (namespace_definition)
-                (if_statement)
-                (for_statement)
-                (while_statement)
-                (switch_statement)
-                (case_statement)
-                (compound_statement)
-              ] @fold
-            ]]
-          end
-          
-          vim.treesitter.query.set(lang, "folds", folds_query)
-        end
-      end,
-    })
+    -- Folding disabled per user request
   end,
 }

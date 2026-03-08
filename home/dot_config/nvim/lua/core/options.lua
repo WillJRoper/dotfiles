@@ -37,7 +37,7 @@ vim.o.timeoutlen = 300                               -- Time to wait for a mappe
 vim.o.backup = false                                 -- Creates a backup file (default: false)
 vim.o.writebackup = false                            -- If a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited (default: true)
 vim.o.undofile = true                                -- Save undo history (default: false)
-vim.o.completeopt = 'menuone,noinsert,noselect'      -- Set completeopt to have a better completion experience
+vim.o.completeopt = 'menu,menuone,noinsert' -- Match nvim-cmp expectations      -- Set completeopt to have a better completion experience
 vim.opt.shortmess:append 'c'                         -- Don't give |ins-completion-menu| messages (default: does not include 'c')
 vim.opt.iskeyword:append '-'                         -- Hyphenated words recognized by searches (default: does not include '-')
 vim.opt.formatoptions:remove { 'c', 'o' }            -- Don't insert the current comment leader automatically for auto-wrapping comments using 'textwidth', hitting <Enter> in insert mode, or hitting 'o' or 'O' in normal mode. (default: 'croql')
@@ -45,10 +45,9 @@ vim.opt.runtimepath:remove '/usr/share/vim/vimfiles' -- Separate Vim plugins fro
 
 -- Modern Neovim settings (0.11+)
 vim.o.smoothscroll = true -- Enable smooth scrolling
-vim.o.foldlevel = 1 -- Start with top-level folds closed
-vim.o.foldlevelstart = 1 -- Start with top-level folds closed
-vim.o.foldenable = true -- Enable folding
-vim.o.fillchars = [[eob: ,fold: ,foldopen:󰅀,foldsep: ,foldclose:󰅂]] -- Better fold characters
+-- Folding disabled per user request
+vim.o.foldenable = false -- Disable folding
+vim.o.fillchars = [[eob: ]] -- Remove fold characters
 
 -- Reduce LSP logging to prevent massive log files
 vim.lsp.set_log_level 'ERROR' -- Only log errors, not debug/info/warn

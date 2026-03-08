@@ -102,8 +102,8 @@ return {
       -- Create floating window with recent messages
       local buf = vim.api.nvim_create_buf(false, true)
       vim.api.nvim_buf_set_lines(buf, 0, -1, false, recent_messages)
-      vim.api.nvim_buf_set_option(buf, 'modifiable', false)
-      vim.api.nvim_buf_set_option(buf, 'filetype', 'messages')
+      vim.api.nvim_set_option_value('modifiable', false, { buf = buf })
+      vim.api.nvim_set_option_value('filetype', 'messages', { buf = buf })
       
       local width = math.min(vim.o.columns - 4, 100)
       local height = math.min(vim.o.lines - 4, #recent_messages + 2)
@@ -112,8 +112,8 @@ return {
         relative = 'editor',
         width = width,
         height = height,
-        col = (vim.o.columns - width) / 2,
-        row = (vim.o.lines - height) / 2,
+        col = math.floor((vim.o.columns - width) / 2),
+        row = math.floor((vim.o.lines - height) / 2),
         style = 'minimal',
         border = 'rounded',
         title = ' Recent Messages ',
@@ -121,12 +121,12 @@ return {
       })
       
       -- Set window options
-      vim.api.nvim_win_set_option(win, 'wrap', false)
-      vim.api.nvim_win_set_option(win, 'cursorline', true)
+      vim.api.nvim_set_option_value('wrap', false, { win = win })
+      vim.api.nvim_set_option_value('cursorline', true, { win = win })
       
       -- Close with q or Escape
-      vim.api.nvim_buf_set_keymap(buf, 'n', 'q', '<cmd>close<cr>', { noremap = true, silent = true })
-      vim.api.nvim_buf_set_keymap(buf, 'n', '<Esc>', '<cmd>close<cr>', { noremap = true, silent = true })
+      vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = buf, silent = true, noremap = true })
+      vim.keymap.set('n', '<Esc>', '<cmd>close<cr>', { buffer = buf, silent = true, noremap = true })
     end, { desc = '[N]otifications [S]how recent' })
     
     vim.keymap.set('n', '<leader>nv', function()

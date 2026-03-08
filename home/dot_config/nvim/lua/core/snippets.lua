@@ -4,19 +4,6 @@
 -- https://github.com/NvChad/NvChad/issues/1907
 vim.highlight.priorities.semantic_tokens = 95 -- Or any number lower than 100, treesitter's priority level
 
--- Enhanced LSP floating window configuration (Neovim 0.11+)
-vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = 'rounded',
-  max_width = 80,
-  max_height = 20,
-})
-
-vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-  border = 'rounded',
-  max_width = 80,
-  max_height = 20,
-})
-
 -- Appearance of diagnostics
 vim.diagnostic.config {
   virtual_text = {

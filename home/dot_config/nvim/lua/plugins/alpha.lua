@@ -45,7 +45,6 @@ return {
       count = count + 1
     end
     local extraline = count - 14
-    print(extraline)
 
     for _ = 1, extraline do
       table.insert(dashboard.section.header.val, 1, '')
