@@ -1,0 +1,63 @@
+{{- $home := .chezmoi.homeDir -}}
+{{- $secondBrainDir := or (env "SECOND_BRAIN_DIR") (printf "%s/SecondBrain" $home) -}}
+{{- $jobsDir := or (env "JOBS_DIR") (printf "%s/Jobs" $home) -}}
+{{- $documentsJobsDir := or (env "DOCUMENTS_JOBS_DIR") (printf "%s/Documents/Jobs" $home) -}}
+{{- $nasaAdsMcpDir := or (env "NASA_ADS_MCP_DIR") (printf "%s/mcp/nasa-ads-mcp" $home) -}}
+{{- $arxivStorageDir := or (env "ARXIV_STORAGE_DIR") (printf "%s/arxiv-papers" $secondBrainDir) -}}
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "obsidian": {
+      "type": "local",
+      "command": ["uvx", "mcp-obsidian"],
+      "enabled": true,
+      "environment": {
+        "OBSIDIAN_API_KEY": "{env:OBSIDIAN_API_KEY}",
+        "OBSIDIAN_HOST": "{env:OBSIDIAN_HOST}",
+        "OBSIDIAN_PORT": "{env:OBSIDIAN_PORT}"
+      }
+    },
+    "arxiv": {
+      "type": "local",
+      "command": [
+        "uv",
+        "tool",
+        "run",
+        "arxiv-mcp-server",
+        "--storage-path",
+        "{{ $arxivStorageDir }}"
+      ],
+      "enabled": true
+    },
+    "nasa_ads": {
+      "type": "local",
+      "command": [
+        "uv",
+        "--directory",
+        "{{ $nasaAdsMcpDir }}",
+        "run",
+        "python",
+        "src/nasa_ads_mcp/server.py"
+      ],
+      "enabled": true,
+      "environment": {
+        "ADS_API_TOKEN": "{env:ADS_API_TOKEN}"
+      }
+    }
+  },
+  "tools": {
+    "obsidian_*": false,
+    "arxiv_*": false,
+    "nasa_ads_*": false
+  },
+  "permission": {
+    "task": {
+      "*": "allow"
+    },
+    "external_directory": {
+      "{{ $secondBrainDir }}/**": "allow",
+      "{{ $jobsDir }}/**": "allow",
+      "{{ $documentsJobsDir }}/**": "allow"
+    }
+  }
+}
