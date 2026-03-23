@@ -22,8 +22,19 @@ chmod +x ~/dotfiles/scripts/clean_py_project_install.sh
 # Source my functions
 # source ~/dotfiles/.functions
 
-# Enable smart autocompletion
-[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
+# Enable programmable completion (Homebrew, with fallbacks)
+if [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then
+    . "/opt/homebrew/etc/profile.d/bash_completion.sh"
+elif [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]]; then
+    . "/usr/local/etc/profile.d/bash_completion.sh"
+fi
+
+# Ensure git completion works even when global bash-completion loader is absent
+if [[ -r "/opt/homebrew/etc/bash_completion.d/git-completion.bash" ]]; then
+    . "/opt/homebrew/etc/bash_completion.d/git-completion.bash"
+elif [[ -r "/usr/local/etc/bash_completion.d/git-completion.bash" ]]; then
+    . "/usr/local/etc/bash_completion.d/git-completion.bash"
+fi
 
 # Enable smart command history
 [ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh

@@ -14,6 +14,7 @@ This directory defines custom OpenCode agents, each with a focused role, prompt,
 - `docs-writer`: Produces and maintains technical documentation for tools, configs, and workflows; model `openai/gpt-5.2`.
 - `expert-computational-astrophysics`: Domain expert for computational astrophysics concepts and workflows; model `openai/gpt-5.2`.
 - `expert-cosmology`: Domain expert for cosmology concepts, models, and interpretation; model `openai/gpt-5.2`.
+- `expert-cuda-hip`: Specialist for correctness- and performance-aware CUDA to AMD HIP migration; model `openai/gpt-5.2`.
 - `expert-galaxy-formation`: Domain expert for galaxy formation and evolution topics; model `openai/gpt-5.2`.
 - `expert-me`: Domain expert on Will Roper's background, work, and accomplishments; model `openai/gpt-5.2`.
 - `expert-ml-techniques`: Domain expert for machine learning methods and practical technique selection; model `openai/gpt-5.2`.

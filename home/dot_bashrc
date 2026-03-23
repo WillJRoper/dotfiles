@@ -4,6 +4,9 @@ case $- in
 *) return ;;
 esac
 
+# Allow completion to apply to aliases like gs/gd/gco
+shopt -s progcomp_alias
+
 # Set up bash line editor first so atuin can integrate with it
 source ~/.local/share/blesh/ble.sh
 if [[ $- == *i* ]]; then # in interactive session
@@ -42,6 +45,9 @@ eval "$(zoxide init bash)"
 
 # Set up fzf key bindings and fuzzy completion
 eval "$(fzf --bash)"
+
+# Set up television (fuzzy finder / picker)
+eval "$(tv init bash)"
 
 # Set up tmuxifier
 export PATH="$PATH:/Users/willroper/.config/tmuxifier/bin"

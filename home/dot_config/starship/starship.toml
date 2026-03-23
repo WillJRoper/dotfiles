@@ -100,7 +100,9 @@ format = '[[ $state( $progress_current/$progress_total) ](fg:#769ff0 bg:#394260)
 
 [git_metrics]
 disabled = false
-format = '[[ +$added(-$deleted) ](fg:#769ff0 bg:#394260)]'
+format = '([+$added]($added_style) )([-$deleted]($deleted_style) )'
+added_style = 'fg:#769ff0 bg:#394260'
+deleted_style = 'fg:#769ff0 bg:#394260'
 
 [c]
 symbol = " "
