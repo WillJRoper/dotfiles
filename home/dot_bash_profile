@@ -14,7 +14,7 @@ export STPSF_PATH="/Users/willroper/stpsf-data/"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Source my aliases
-source ~/dotfiles/.aliases
+source ~/.aliases
 
 # Make scripts executable
 chmod +x ~/dotfiles/scripts/clean_py_project_install.sh

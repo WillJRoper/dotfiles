@@ -98,9 +98,9 @@ alias start-emacs='emacs --daemon'
 # Alias to create a new environment and create its alias
 function create-py-env() {
     python -m venv ~/envs/$1
-    echo "" >> ~/dotfiles/.aliases
-    echo "# $1 environment" >> ~/dotfiles/.aliases
-    echo "alias $1='source ~/envs/$1/bin/activate'" >> ~/dotfiles/.aliases
+    echo "" >> ~/dotfiles/home/dot_aliases
+    echo "# $1 environment" >> ~/dotfiles/home/dot_aliases
+    echo "alias $1='source ~/envs/$1/bin/activate'" >> ~/dotfiles/home/dot_aliases
     source ~/.bash_profile
 }
 

@@ -48,7 +48,3 @@ eval "$(fzf --bash)"
 
 # Set up television (fuzzy finder / picker)
 eval "$(tv init bash)"
-
-# Set up tmuxifier
-export PATH="$PATH:/Users/willroper/.config/tmuxifier/bin"
-eval "$(tmuxifier init -)"
