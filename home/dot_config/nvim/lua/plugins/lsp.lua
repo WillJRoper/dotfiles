@@ -166,8 +166,8 @@ return {
         init_options = {
           settings = {
             args = {
-              '--line-length=79',
-              '--select=E,W,F,I,N,UP,YTT,ANN,S,BLE,FBT,B,A,COM,DTZ,EM,EXE,FA,ISC,ICN,G,INP,PIE,T20,PYI,PT,Q,RSE,RET,SLF,SLOT,SIM,TID,TCH,INT,ARG,PTH,TD,FIX,ERA,PD,PGH,PL,TRY,FLY,NPY,PERF,FURB,LOG,RUF',
+              '--config',
+              vim.fn.stdpath('config') .. '/ruff.toml',
             },
           },
         },

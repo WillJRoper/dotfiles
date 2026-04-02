@@ -8,6 +8,17 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- For conciseness
 local opts = { noremap = true, silent = true }
 
+local function copy_to_clipboard(value, label)
+  if value == '' then
+    vim.notify('No file available to copy', vim.log.levels.WARN)
+    return
+  end
+
+  vim.fn.setreg('+', value)
+  vim.fn.setreg('"', value)
+  vim.notify(label .. ': ' .. value, vim.log.levels.INFO)
+end
+
 -- save file
 vim.keymap.set('n', '<C-s>', '<cmd> w <CR>', opts)
 
@@ -119,6 +130,12 @@ vim.keymap.set('i', '<C-c>', '<Esc>', opts)
 -- Quick fix/location list navigation
 vim.keymap.set('n', '<leader>co', '<cmd>copen<CR>', { desc = 'Open quickfix list' })
 vim.keymap.set('n', '<leader>cc', '<cmd>cclose<CR>', { desc = 'Close quickfix list' })
+vim.keymap.set('n', '<leader>cf', function()
+  copy_to_clipboard(vim.fn.expand '%:t', 'Copied file name')
+end, { desc = 'Copy current file name' })
+vim.keymap.set('n', '<leader>cp', function()
+  copy_to_clipboard(vim.fn.expand '%:p', 'Copied file path')
+end, { desc = 'Copy current file path' })
 vim.keymap.set('n', ']q', '<cmd>cnext<CR>', { desc = 'Next quickfix item' })
 vim.keymap.set('n', '[q', '<cmd>cprev<CR>', { desc = 'Previous quickfix item' })
 
