@@ -1,0 +1,69 @@
+#:schema https://github.com/joshmedeski/sesh/raw/main/sesh.schema.json
+
+cache = true
+sort_order = ["tmux", "config", "zoxide"]
+
+[default_session]
+preview_command = "command -v eza >/dev/null 2>&1 && eza --all --git --icons --color=always {} || ls -la {}"
+
+[[window]]
+name = "CMD"
+
+[[window]]
+name = "Remote"
+
+[[window]]
+name = "Neovim"
+startup_script = "nvim"
+
+[[window]]
+name = "Dir"
+
+[[window]]
+name = "Agent"
+startup_script = "opencode"
+
+[[session]]
+name = "Config"
+path = "~/.config"
+windows = ["Neovim", "CMD"]
+
+[[session]]
+name = "Apps"
+path = "~/Miscellaneous"
+windows = ["Neovim", "CMD"]
+
+[[session]]
+name = "COLIBRE"
+path = "~/Research/COLIBRE"
+windows = ["CMD", "Remote", "Neovim"]
+
+[[session]]
+name = "FLARES"
+path = "~/Research/FLARES"
+windows = ["CMD", "Remote", "Neovim"]
+
+[[session]]
+name = "FLARES-2"
+path = "~/Research/FLARES-2"
+windows = ["CMD", "Remote", "Neovim"]
+
+[[session]]
+name = "SWIFT"
+path = "~/Research/SWIFT"
+windows = ["CMD", "Remote", "Neovim"]
+
+[[session]]
+name = "Synthesizer"
+path = "~/Research/Synthesizer"
+windows = ["CMD", "Remote", "Neovim"]
+
+[[session]]
+name = "Jobs"
+path = "~/Documents/Jobs"
+windows = ["Dir", "Agent", "Neovim"]
+
+[[session]]
+name = "Reviews"
+path = "~/Reviews"
+windows = ["CMD", "Neovim"]

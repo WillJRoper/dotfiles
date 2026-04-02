@@ -243,6 +243,7 @@ fallback_channel = "files"
 "git-log" = ["git log", "git show"]
 "docker-images" = ["docker run"]
 "git-repos" = ["nvim", "code", "hx", "git clone"]
+"sesh-sessions" = ["sesh", "sesh connect", "tmux attach-session", "tmux switch-client"]
 
 
 [shell_integration.keybindings]
