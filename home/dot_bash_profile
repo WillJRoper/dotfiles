@@ -17,10 +17,12 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 source ~/.aliases
 
 # Make scripts executable
-chmod +x ~/dotfiles/scripts/clean_py_project_install.sh
+if [ -f "$HOME/scripts/clean_py_project_install.sh" ]; then
+    chmod +x "$HOME/scripts/clean_py_project_install.sh"
+fi
 
 # Source my functions
-# source ~/dotfiles/.functions
+source ~/.functions
 
 # Enable programmable completion (Homebrew, with fallbacks)
 if [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then

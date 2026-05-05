@@ -16,9 +16,14 @@ alias aliases='alias'
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 
+# ====================== SSH aliases ======================
+
+# Start the master cosma connection in the background
+alias cosma-start="ssh -Nf cosma"
+
 # ====================== Mounting HPC related aliases ======================
 
-alias mountCosma6='mkdir /Volumes/cosma6 && sshfs -o allow_other -o ssh_command="ssh -i ~/.ssh/id_rsa" dc-rope1@login7.cosma.dur.ac.uk:/cosma6/data/dp004/dc-rope1/ /Volumes/cosma6'
+
 
 # ====================== Directory aliases ======================
 
@@ -85,7 +90,7 @@ alias gcl='git clone'
 
 # ====================== Helper scripts ======================
 
-alias pip-clean='~/dotfiles/scripts/clean_py_project_install.sh'
+alias pip-clean='~/scripts/clean_py_project_install.sh'
 
 
 # ====================== Emacs aliases ======================

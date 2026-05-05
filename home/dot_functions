@@ -83,3 +83,65 @@ denv() {
         echo "Deactivated current environment. Unable to determine previous Python version."
     fi
 }
+
+# -------- COSMA SSHFS mount helpers --------
+
+_mount_if_needed() {
+    local remote="$1"
+    local target="$2"
+
+    if mount | grep -q "on $target "; then
+        echo "$target already mounted"
+        return
+    fi
+
+    mkdir -p "$target"
+    echo "Mounting $target..."
+    sshfs "$remote" "$target" \
+        -o reconnect,compression=no,cache=yes,kernel_cache,ServerAliveInterval=15,ServerAliveCountMax=3
+}
+
+# -------- Individual mounts --------
+
+mount_snap7()      { _mount_if_needed cosma7:/snap7/scratch/dp004/dc-rope1/ ~/Mounts/snap7; }
+mount_snap8()      { _mount_if_needed cosma8:/snap8/scratch/dp004/dc-rope1/ ~/Mounts/snap8; }
+mount_home()       { _mount_if_needed cosma:/cosma/home/dp004/dc-rope1 ~/Mounts/cosma_home; }
+mount_apps()       { _mount_if_needed cosma:/cosma/apps/dp004/dc-rope1/ ~/Mounts/cosma_apps; }
+mount_cosma8() { _mount_if_needed cosma8:/cosma8/data/dp004/dc-rope1/ ~/Mounts/cosma8; }
+mount_cosma7() { _mount_if_needed cosma7:/cosma7/data/dp004/dc-rope1/ ~/Mounts/cosma7; }
+
+# -------- Unmount helpers --------
+
+umount_snap7()      { umount ~/Mounts/snap7      2>/dev/null || umount -f ~/Mounts/snap7; }
+umount_snap8()      { umount ~/Mounts/snap8      2>/dev/null || umount -f ~/Mounts/snap8; }
+umount_home()       { umount ~/Mounts/cosma_home 2>/dev/null || umount -f ~/Mounts/cosma_home; }
+umount_apps()       { umount ~/Mounts/cosma_apps 2>/dev/null || umount -f ~/Mounts/cosma_apps; }
+umount_cosma8() { umount ~/Mounts/cosma8     2>/dev/null || umount -f ~/Mounts/cosma8; }
+umount_cosma7() { umount ~/Mounts/cosma7     2>/dev/null || umount -f ~/Mounts/cosma7; }
+
+mount_all() {
+    mount_snap7
+    mount_snap8
+    mount_home
+    mount_apps
+    mount_cosma7
+    mount_cosma8
+}
+
+umount_all() {
+    umount_snap7
+    umount_snap8
+    umount_home
+    umount_apps
+    umount_cosma7
+    umount_cosma8
+}
+
+# -------- Jump shortcuts --------
+
+snap7() { mount_snap7 && cd ~/Mounts/snap7; }
+snap8() { mount_snap8 && cd ~/Mounts/snap8; }
+c7()    { mount_cosma7 && cd ~/Mounts/cosma7; }
+c8()    { mount_cosma8 && cd ~/Mounts/cosma8; }
+chome() { mount_home && cd ~/Mounts/cosma_home; }
+capps() { mount_apps && cd ~/Mounts/cosma_apps; }
