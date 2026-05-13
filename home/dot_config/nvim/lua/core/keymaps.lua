@@ -68,6 +68,9 @@ vim.keymap.set('n', '<C-l>', ':wincmd l<CR>', opts)
 -- Toggle line wrapping
 vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', opts)
 
+-- Reload buffers changed outside Neovim
+vim.keymap.set('n', '<leader>rl', '<cmd>checktime<CR>', { desc = 'Reload changed buffers' })
+
 -- Stay in indent mode
 vim.keymap.set('v', '<', '<gv', opts)
 vim.keymap.set('v', '>', '>gv', opts)
