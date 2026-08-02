@@ -8,9 +8,10 @@ partial Linux/HPC support.
 
 ### macOS
 
-Install Homebrew if needed:
+Install the Xcode Command Line Tools, then Homebrew if needed:
 
 ```bash
+xcode-select --install
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
