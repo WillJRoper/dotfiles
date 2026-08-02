@@ -4,7 +4,7 @@ Starship is a cross-shell prompt engine. It builds prompt segments from context 
 
 - Docs: https://starship.rs
 - Config reference: https://starship.rs/config/
-- Source: `home/dot_config/starship/starship.toml`
+- Source: `home/dot_config/starship.toml`
 - Runtime target: `~/.config/starship.toml`
 
 ## How This Prompt Is Built

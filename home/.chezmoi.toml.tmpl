@@ -12,5 +12,14 @@
 {{- end -}}
 
 [data]
+    enable_copilot = true
     isHPC = {{ $isHPC }}
     hostname = "{{ $hostname }}"
+    os = "{{ .chezmoi.os }}"
+
+[edit]
+    command = "nvim"
+
+[git]
+    autoCommit = true
+    autoPush = false

@@ -19,6 +19,23 @@ local function copy_to_clipboard(value, label)
   vim.notify(label .. ': ' .. value, vim.log.levels.INFO)
 end
 
+local function toggle_lsp_overlays()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local diagnostics_enabled = vim.diagnostic.is_enabled { bufnr = bufnr }
+
+  vim.diagnostic.enable(not diagnostics_enabled, { bufnr = bufnr })
+
+  if vim.lsp.inlay_hint then
+    vim.lsp.inlay_hint.enable(not diagnostics_enabled, { bufnr = bufnr })
+  end
+
+  if diagnostics_enabled then
+    vim.notify('LSP overlays hidden for current buffer', vim.log.levels.INFO)
+  else
+    vim.notify('LSP overlays restored for current buffer', vim.log.levels.INFO)
+  end
+end
+
 -- save file
 vim.keymap.set('n', '<C-s>', '<cmd> w <CR>', opts)
 
@@ -70,6 +87,9 @@ vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', opts)
 
 -- Reload buffers changed outside Neovim
 vim.keymap.set('n', '<leader>rl', '<cmd>checktime<CR>', { desc = 'Reload changed buffers' })
+
+-- Toggle LSP overlays for clean screenshots
+vim.keymap.set('n', '<leader>lo', toggle_lsp_overlays, { desc = 'Toggle LSP overlays' })
 
 -- Stay in indent mode
 vim.keymap.set('v', '<', '<gv', opts)

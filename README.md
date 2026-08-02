@@ -1,139 +1,156 @@
-# dotfiles
+# Dotfiles
 
-My configuration files for bash, prompt styles, aliases, etc., managed with [Chezmoi](https://www.chezmoi.io/). Works on macOS and Linux.
+Personal macOS-first development environment managed with
+[Chezmoi](https://www.chezmoi.io/). Linux/HPC support is partial: editor config
+is usable there, but package installation and some shell helpers are macOS-specific.
 
-## Installation
+## Before Migrating
 
-### Prerequisites
+The new laptop can only receive changes that are committed and pushed. On the
+old laptop, review `git status`, remove secrets, commit the intended changes,
+and push before beginning. Never commit API keys or private keys.
 
-1. Install Chezmoi:
-   ```bash
-   # macOS
-   brew install chezmoi
-   
-   # Linux (various methods)
-   # Ubuntu/Debian: snap install chezmoi --classic
-   # Arch: pacman -S chezmoi
-   # Or install script: sh -c "$(curl -fsLS get.chezmoi.io)"
-   ```
+Plaintext Synthesizer credentials previously existed in this repository. Rotate
+them before migration; deleting them from the current file does not remove them
+from Git history.
 
-2. Install required tools (optional but recommended):
-   ```bash
-   # macOS
-   brew install starship eza bat dust zoxide
-   
-   # Linux - use your package manager, e.g.:
-   # Ubuntu: apt install bat zoxide
-   # Arch: pacman -S starship eza bat dust zoxide
-   # Or install via cargo: cargo install starship eza bat-fd dust zoxide
-   ```
+## New Mac Setup
 
-3. Note: ble.sh (for enhanced vim command line editing) will be automatically installed by Chezmoi setup scripts.
+### 1. Install Apple Tools And Homebrew
 
-### Setup
+```bash
+xcode-select --install
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
 
-1. Initialize Chezmoi with this repository:
-   ```bash
-   chezmoi init https://github.com/WillJRoper/dotfiles.git
-   ```
+Follow Homebrew's printed `shellenv` instruction, then install Chezmoi:
 
-2. Preview what files will be managed:
-   ```bash
-   chezmoi diff
-   ```
+```bash
+brew install chezmoi
+```
 
-3. Apply the dotfiles:
-   ```bash
-   chezmoi apply
-   ```
+### 2. Fetch The Repository
 
-### What's Included
+Initialize without applying yet so packages can be installed first:
 
-- **Shell Configuration**: `.aliases`, `.functions`, `.bash_profile`, `.bashrc`
-- **Vim Command Line**: Enhanced bash vi mode with ble.sh for vim keybindings on command line
-- **Starship**: Custom prompt configuration with git integration
-- **WezTerm**: Terminal emulator settings with Catppuccin theme
-- **Tmux**: Terminal multiplexer with vim keybindings and plugins
-- **Neovim**: Complete editor configuration
-- **Atuin**: Shell history search configuration
-- **btop**: Terminal system monitor preferences
-- **neofetch**: System summary output preferences
-- **thefuck**: Command correction settings
-- **GitHub CLI**: Non-secret `gh` defaults and aliases
-- **OpenCode**: Agent and MCP configuration
-- **Git**: Global git configuration
-- **Scripts**: Utility scripts including Python project cleanup
+```bash
+chezmoi init https://github.com/WillJRoper/dotfiles.git
+```
 
-### Neovim Documentation
+The repository is cloned below `~/.local/share/chezmoi`. Install the core tools
+used directly by the managed configs:
 
-- Main guide: `home/dot_config/nvim/README.md`
-- Lua module map: `home/dot_config/nvim/lua/README.md`
-- Core modules: `home/dot_config/nvim/lua/core/README.md`
-- Plugin modules: `home/dot_config/nvim/lua/plugins/README.md`
-- Utility modules: `home/dot_config/nvim/lua/utils/README.md`
+```bash
+brew bundle --file="$HOME/.local/share/chezmoi/Brewfile"
+```
 
-### Config Documentation
+`Brewfile.optional` records the heavier compiler, scientific, presentation, and
+specialized tools installed on the old workstation. Review it before opting in:
 
-- XDG config overview: `home/dot_config/README.md`
-- Starship: `home/dot_config/starship/README.md`
-- Tmux: `home/dot_config/tmux/README.md`
-- WezTerm: `home/dot_config/wezterm/README.md`
-- Atuin: `home/dot_config/atuin/README.md`
-- btop: `home/dot_config/btop/README.md`
-- neofetch: `home/dot_config/neofetch/README.md`
-- thefuck: `home/dot_config/thefuck/README.md`
-- GitHub CLI: `home/dot_config/gh/README.md`
-- OpenCode: `home/dot_config/opencode/README.md`
+```bash
+brew tap gromgit/fuse
+brew trust --formula gromgit/fuse/sshfs-mac  # required by Homebrew 6
+brew bundle --file="$HOME/.local/share/chezmoi/Brewfile.optional"
+```
 
-Chezmoi mapping reminder:
+This split avoids reinstalling every historical package while retaining a
+record of explicitly installed Homebrew software. Homebrew resolves transitive
+dependencies automatically.
 
-- `home/dot_config/nvim` in this repository is rendered to `~/.config/nvim` on target machines.
+### 3. Preview And Apply Config
 
-### Key Features
+```bash
+chezmoi diff
+chezmoi apply
+```
 
-- Modern CLI tools integration (eza, bat, dust, zoxide)
-- Comprehensive Git aliases
-- Python environment management system
-- Custom shell functions for development workflow
-- Consistent theming across tools (Catppuccin)
-- **HPC-Aware**: Automatically disables internet-dependent features (like Copilot) on HPC systems
+Chezmoi also installs ble.sh and the tmux plugin manager. In tmux, press the
+prefix (`Ctrl-a`) followed by `I` to install the configured plugins.
 
-### Updating
+### 4. Select Homebrew Bash
 
-To update your dotfiles:
+macOS ships an old Bash and defaults to zsh. Add the Homebrew Bash path once,
+then select it as the login shell:
+
+```bash
+BREW_BASH="$(brew --prefix)/bin/bash"
+grep -qxF "$BREW_BASH" /etc/shells || echo "$BREW_BASH" | sudo tee -a /etc/shells
+chsh -s "$BREW_BASH"
+```
+
+Log out and back in after changing the login shell. The managed `.zshrc` keeps
+Atuin usable until that change takes effect.
+
+### 5. Restore Identity And Authentication
+
+Restore credentials through their own secure mechanisms, not Git:
+
+```bash
+gh auth login
+git lfs install
+atuin login
+```
+
+The Git config signs commits only when `~/.ssh/ghub_key.pub` exists. Restore the
+existing SSH key securely or generate a new signing/authentication key, add it
+to GitHub, and run `chezmoi apply` again. Do not copy private keys through this
+repository.
+
+Machine-local environment variables can be loaded from:
+
+```bash
+mkdir -p "$HOME/.config/dotfiles"
+touch "$HOME/.config/dotfiles/secrets.sh"
+chmod 600 "$HOME/.config/dotfiles/secrets.sh"
+```
+
+Add `export NAME="value"` lines there. The file is intentionally unmanaged.
+
+### 6. Finish Application Setup
+
+Sign into applications such as GitHub, Atuin, Docker, Warp, VS Code, OpenCode,
+cloud storage, browsers, and AI tools. Restore SSH/GPG material and project data
+from an encrypted backup or password manager. See
+[`docs/MIGRATION_CHECKLIST.md`](docs/MIGRATION_CHECKLIST.md) for the complete
+manual checklist, [`docs/APPLICATION_INVENTORY.md`](docs/APPLICATION_INVENTORY.md)
+for the old laptop's app inventory, and the audited home-directory gaps.
+
+### 7. Verify
+
+```bash
+brew bundle check --file="$HOME/.local/share/chezmoi/Brewfile"
+chezmoi doctor
+chezmoi status
+bash -l
+nvim --headless '+Lazy! sync' +qa
+tmux new-session -d -s setup-check && tmux kill-session -t setup-check
+```
+
+## Managed Configuration
+
+- Bash and minimal zsh startup config
+- Git, GitHub CLI, and global ignore rules
+- Neovim, tmux, WezTerm, Starship, Atuin, btop, sesh, and Television
+- OpenCode agents and MCP configuration
+- VS Code user settings and keybindings
+- Utility scripts
+
+Chezmoi maps `home/dot_config/nvim` to `~/.config/nvim`. The `.chezmoiroot`
+file makes `home/` the source-state root while package manifests remain at the
+repository root.
+
+## Updating
 
 ```bash
 chezmoi update
 ```
 
-To make changes:
+To edit managed state, use `chezmoi cd`, edit the source file, review
+`chezmoi diff`, then commit and push from the source repository.
 
-1. Edit files in your source directory: `chezmoi cd`
-2. Add new files: `chezmoi add ~/.config/newfile`
-3. Apply changes: `chezmoi apply`
+## HPC Notes
 
-### Scripts
-
-The included scripts are available system-wide:
-- `clean_py_project_install.sh` - Cleans Python build artifacts (aliased as `pip-clean`)
-
-### HPC Environment Support
-
-The configuration automatically detects HPC environments and disables internet-dependent features:
-
-**Detection Methods:**
-- Hostname patterns: `cosma`, `login`, `compute`, `node`, `hpc`
-- Environment variables: `SLURM_JOB_ID`, `PBS_JOBID`, `SGE_JOB_ID`, `SCHEDULER`
-
-**Disabled on HPC:**
-- GitHub Copilot plugins (copilot.lua, copilot-chat.lua)
-- Other internet-dependent features as needed
-
-**Manual Override:**
-To force HPC mode on any system:
-```bash
-export SCHEDULER=slurm  # or any value
-chezmoi apply
-```
-
-For more information about managing dotfiles with Chezmoi, see the [Chezmoi documentation](https://www.chezmoi.io/docs/).
+Chezmoi records hostname/scheduler-based HPC detection in its template data,
+while Neovim performs its own runtime HPC detection. Do not assume every macOS
+shell helper is portable to a cluster. Review changes with `chezmoi diff`
+before applying on Linux/HPC systems.

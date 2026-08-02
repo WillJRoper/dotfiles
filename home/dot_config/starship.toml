@@ -38,6 +38,7 @@ Debian = ""
 Arch = ""
 Fedora = ""
 NixOS = ""
+RockyLinux = ""
 Unknown = ""
 
 [hostname]
@@ -92,15 +93,15 @@ format = '[[ $symbol $branch ](fg:#769ff0 bg:#394260)]($style)'
 
 [git_status]
 style = "bg:#394260"
-format = '[[($all_status$ahead_behind )](fg:#769ff0 bg:#394260)]($style)'
+format = '[[($all_status$ahead_behind)](fg:#769ff0 bg:#394260)]($style)'
 
 [git_state]
 style = "bg:#394260"
-format = '[[ $state( $progress_current/$progress_total) ](fg:#769ff0 bg:#394260)]($style)'
+format = '[[ $state( $progress_current/$progress_total)](fg:#769ff0 bg:#394260)]($style)'
 
 [git_metrics]
 disabled = false
-format = '([+$added]($added_style) )([-$deleted]($deleted_style) )'
+format = '([+$added]($added_style))([-$deleted]($deleted_style))'
 added_style = 'fg:#769ff0 bg:#394260'
 deleted_style = 'fg:#769ff0 bg:#394260'
 

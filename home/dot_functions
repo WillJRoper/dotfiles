@@ -9,11 +9,14 @@ use_python() {
     fi
 
     # Extract the version from the argument
-    version="$1"
-    python_exec="/opt/homebrew/bin/python$version"
+    local version="$1"
+    local python_exec
+    local pip_exec
+
+    python_exec="$(command -v "python$version" 2>/dev/null || true)"
 
     # Check if the requested version of Python exists
-    if ! command -v "$python_exec" &> /dev/null; then
+    if [ -z "$python_exec" ]; then
 	# It doesn't exist... should we install it?
         read -p "Python $version not found. Do you want to install it with Homebrew? (y/n): " answer
         case "$answer" in
@@ -23,6 +26,7 @@ use_python() {
                     echo "Error: Failed to install Python $version with Homebrew."
                     return 1
                 fi
+                python_exec="$(brew --prefix "python@$version")/bin/python$version"
                 ;;
             *)
                 echo "Error: Python $version not found. Aborted."
@@ -32,8 +36,9 @@ use_python() {
     fi
 
     # Define the aliases for Python and Pip
+    pip_exec="${python_exec%/*}/pip$version"
     alias python="$python_exec"
-    alias pip="/opt/homebrew/bin/pip$version"
+    alias pip="$pip_exec"
 
     # Inform the user about the aliases
     echo "Aliases set successfully for Python $version."
@@ -69,22 +74,19 @@ aenv() {
 
 # Deactivate the current environment and reset python and pip aliases
 denv() {
-# Extract the Python version from the currently activated virtual environment
-    current_python_version=$(python --version 2>&1 | awk '{print $2}')
-
-    # Use the virtualenv's deactivate script
-    deactivate 2>/dev/null
-
-    # Reset aliases to the previously used Python version
-    if [ -n "$current_python_version" ]; then
-        use_python "$current_python_version"
-        echo "Deactivated current environment and switched to Python $current_python_version."
-    else
-        echo "Deactivated current environment. Unable to determine previous Python version."
+    if ! declare -F deactivate >/dev/null 2>&1; then
+        echo "No virtual environment is active."
+        return 1
     fi
+
+    unalias python pip 2>/dev/null || true
+    deactivate
+    echo "Deactivated current environment."
 }
 
 # -------- COSMA SSHFS mount helpers --------
+
+COSMA_MOUNT_ROOT="/Users/Shared/Mounts"
 
 _mount_if_needed() {
     local remote="$1"
@@ -103,21 +105,21 @@ _mount_if_needed() {
 
 # -------- Individual mounts --------
 
-mount_snap7()      { _mount_if_needed cosma7:/snap7/scratch/dp004/dc-rope1/ ~/Mounts/snap7; }
-mount_snap8()      { _mount_if_needed cosma8:/snap8/scratch/dp004/dc-rope1/ ~/Mounts/snap8; }
-mount_home()       { _mount_if_needed cosma:/cosma/home/dp004/dc-rope1 ~/Mounts/cosma_home; }
-mount_apps()       { _mount_if_needed cosma:/cosma/apps/dp004/dc-rope1/ ~/Mounts/cosma_apps; }
-mount_cosma8() { _mount_if_needed cosma8:/cosma8/data/dp004/dc-rope1/ ~/Mounts/cosma8; }
-mount_cosma7() { _mount_if_needed cosma7:/cosma7/data/dp004/dc-rope1/ ~/Mounts/cosma7; }
+mount_snap7()  { _mount_if_needed cosma7:/snap7/scratch/dp004/dc-rope1/ "$COSMA_MOUNT_ROOT/snap7"; }
+mount_snap8()  { _mount_if_needed cosma8:/snap8/scratch/dp004/dc-rope1/ "$COSMA_MOUNT_ROOT/snap8"; }
+mount_home()   { _mount_if_needed cosma:/cosma/home/dp004/dc-rope1 "$COSMA_MOUNT_ROOT/cosma_home"; }
+mount_apps()   { _mount_if_needed cosma:/cosma/apps/dp004/dc-rope1/ "$COSMA_MOUNT_ROOT/cosma_apps"; }
+mount_cosma8() { _mount_if_needed cosma8:/cosma8/data/dp004/dc-rope1/ "$COSMA_MOUNT_ROOT/cosma8"; }
+mount_cosma7() { _mount_if_needed cosma7:/cosma7/data/dp004/dc-rope1/ "$COSMA_MOUNT_ROOT/cosma7"; }
 
 # -------- Unmount helpers --------
 
-umount_snap7()      { umount ~/Mounts/snap7      2>/dev/null || umount -f ~/Mounts/snap7; }
-umount_snap8()      { umount ~/Mounts/snap8      2>/dev/null || umount -f ~/Mounts/snap8; }
-umount_home()       { umount ~/Mounts/cosma_home 2>/dev/null || umount -f ~/Mounts/cosma_home; }
-umount_apps()       { umount ~/Mounts/cosma_apps 2>/dev/null || umount -f ~/Mounts/cosma_apps; }
-umount_cosma8() { umount ~/Mounts/cosma8     2>/dev/null || umount -f ~/Mounts/cosma8; }
-umount_cosma7() { umount ~/Mounts/cosma7     2>/dev/null || umount -f ~/Mounts/cosma7; }
+umount_snap7()  { umount "$COSMA_MOUNT_ROOT/snap7"      2>/dev/null || umount -f "$COSMA_MOUNT_ROOT/snap7"; }
+umount_snap8()  { umount "$COSMA_MOUNT_ROOT/snap8"      2>/dev/null || umount -f "$COSMA_MOUNT_ROOT/snap8"; }
+umount_home()   { umount "$COSMA_MOUNT_ROOT/cosma_home" 2>/dev/null || umount -f "$COSMA_MOUNT_ROOT/cosma_home"; }
+umount_apps()   { umount "$COSMA_MOUNT_ROOT/cosma_apps" 2>/dev/null || umount -f "$COSMA_MOUNT_ROOT/cosma_apps"; }
+umount_cosma8() { umount "$COSMA_MOUNT_ROOT/cosma8"     2>/dev/null || umount -f "$COSMA_MOUNT_ROOT/cosma8"; }
+umount_cosma7() { umount "$COSMA_MOUNT_ROOT/cosma7"     2>/dev/null || umount -f "$COSMA_MOUNT_ROOT/cosma7"; }
 
 mount_all() {
     mount_snap7
@@ -139,9 +141,9 @@ umount_all() {
 
 # -------- Jump shortcuts --------
 
-snap7() { mount_snap7 && cd ~/Mounts/snap7; }
-snap8() { mount_snap8 && cd ~/Mounts/snap8; }
-c7()    { mount_cosma7 && cd ~/Mounts/cosma7; }
-c8()    { mount_cosma8 && cd ~/Mounts/cosma8; }
-chome() { mount_home && cd ~/Mounts/cosma_home; }
-capps() { mount_apps && cd ~/Mounts/cosma_apps; }
+snap7() { mount_snap7 && cd "$COSMA_MOUNT_ROOT/snap7"; }
+snap8() { mount_snap8 && cd "$COSMA_MOUNT_ROOT/snap8"; }
+c7()    { mount_cosma7 && cd "$COSMA_MOUNT_ROOT/cosma7"; }
+c8()    { mount_cosma8 && cd "$COSMA_MOUNT_ROOT/cosma8"; }
+chome() { mount_home && cd "$COSMA_MOUNT_ROOT/cosma_home"; }
+capps() { mount_apps && cd "$COSMA_MOUNT_ROOT/cosma_apps"; }

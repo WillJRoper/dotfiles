@@ -11,6 +11,8 @@ return {
   dependencies = { 'nvimtools/none-ls.nvim' },
   config = function()
     local cspell = require('cspell')
+    local cspell_helpers = require 'cspell.helpers'
+    local cspell_config_path = vim.fn.expand '~/.cspell.json'
     
     -- Configure cspell with project-specific settings
     local cspell_config = {
@@ -18,7 +20,7 @@ return {
       config = {
         -- Use local dictionaries if available
         find_json = function()
-          return vim.fn.expand('~/cspell.json')
+          return cspell_config_path
         end,
       },
       -- Set diagnostic severity to hint to avoid being too intrusive
@@ -31,6 +33,13 @@ return {
     local null_ls = require('null-ls')
     null_ls.register(cspell.diagnostics.with(cspell_config))
     null_ls.register(cspell.code_actions.with(cspell_config))
+
+    vim.api.nvim_create_autocmd('BufWritePost', {
+      pattern = cspell_config_path,
+      callback = function()
+        cspell_helpers.clear_cache()
+      end,
+    })
 
     -- Keymaps for spell checking (moved off `<leader>s` to avoid Telescope conflicts)
     vim.keymap.set('n', '<leader>zc', vim.lsp.buf.code_action, { desc = 'Spell: Code actions (cspell)' })

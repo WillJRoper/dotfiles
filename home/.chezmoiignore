@@ -1,0 +1,11 @@
+# Repository documentation and local/generated state
+**/README.md
+**/CLAUDE.md
+.DS_Store
+.git/
+dot_config/nvim/.claude/
+dot_config/nvim/AGENTS.md
+dot_config/nvim/CLAUDE.md
+dot_config/opencode/node_modules/
+dot_config/opencode/bun.lock
+dot_config/opencode/package-lock.json

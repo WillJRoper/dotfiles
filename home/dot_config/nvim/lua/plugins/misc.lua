@@ -9,6 +9,10 @@ return {
     'folke/which-key.nvim',
     event = 'VeryLazy',
     opts = {
+      triggers = {
+        { '<auto>', mode = 'nxso' },
+        { '<leader>', mode = { 'n', 'v' } },
+      },
       spec = {
         { '<leader>a', group = '[A]I' },
         { '<leader>c', group = '[C]ode' },

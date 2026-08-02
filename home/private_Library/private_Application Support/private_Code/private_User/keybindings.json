@@ -1,0 +1,6 @@
+[
+    {
+        "key": "ctrl+r ctrl+enter",
+        "command": "jupyter.restartkernelandrunallcells"
+    }
+]

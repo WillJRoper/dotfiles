@@ -27,5 +27,5 @@ tmux is a terminal multiplexer: persistent sessions, multiple panes/windows, and
 ## Operational Commands
 
 - Reload config in tmux: prefix then `r`.
-- First-time plugin install: prefix then `I` (capital i).
+- Chezmoi clones TPM automatically. Install/update configured plugins with prefix then `I` (capital i).
 - Restore session (if needed): prefix then `Ctrl-s` / plugin-defined restore command.

@@ -1,28 +1,27 @@
-export PATH="/usr/bin:/usr/local/sbin:$PATH"
+# shellcheck shell=bash disable=SC2155
+
+export PATH="$HOME/scripts:/usr/local/sbin:$PATH"
 
 # ssh-add --apple-use-keychain ~/.ssh/id_rsa
 
-export METIS_DLL=/usr/local/lib/libmetis.dylib
+[[ -f /usr/local/lib/libmetis.dylib ]] && export METIS_DLL=/usr/local/lib/libmetis.dylib
 
-# Make emacs the default editor for other applications (git etc)
-export EDITOR="/opt/homebrew/bin/nvim"
-
-export PATH="/usr/local/opt/llvm/bin:$PATH"
-
-export STPSF_PATH="/Users/willroper/stpsf-data/"
-
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
-# Source my aliases
-source ~/.aliases
-
-# Make scripts executable
-if [ -f "$HOME/scripts/clean_py_project_install.sh" ]; then
-    chmod +x "$HOME/scripts/clean_py_project_install.sh"
+# Initialize Homebrew on Apple Silicon or Intel macOS.
+if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
 fi
 
-# Source my functions
-source ~/.functions
+export EDITOR="$(command -v nvim 2>/dev/null || command -v vim 2>/dev/null || printf 'vi')"
+
+export STPSF_PATH="$HOME/stpsf-data/"
+
+if command -v brew >/dev/null 2>&1; then
+    if brew --prefix llvm >/dev/null 2>&1; then
+        export PATH="$(brew --prefix llvm)/bin:$PATH"
+    fi
+fi
 
 # Enable programmable completion (Homebrew, with fallbacks)
 if [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then
@@ -38,25 +37,26 @@ elif [[ -r "/usr/local/etc/bash_completion.d/git-completion.bash" ]]; then
     . "/usr/local/etc/bash_completion.d/git-completion.bash"
 fi
 
-# Enable smart command history
-[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
+# Make optional Homebrew libraries discoverable without replacing existing flags.
+if command -v brew >/dev/null 2>&1; then
+    if brew --prefix libomp >/dev/null 2>&1; then
+        LIBOMP_PREFIX="$(brew --prefix libomp)"
+        export LDFLAGS="-L$LIBOMP_PREFIX/lib ${LDFLAGS:-}"
+        export CFLAGS="-I$LIBOMP_PREFIX/include ${CFLAGS:-}"
+        export CPPFLAGS="-I$LIBOMP_PREFIX/include ${CPPFLAGS:-}"
+    fi
+    if brew --prefix tcl-tk >/dev/null 2>&1; then
+        TCLTK_PREFIX="$(brew --prefix tcl-tk)"
+        export LDFLAGS="-L$TCLTK_PREFIX/lib ${LDFLAGS:-}"
+        export CPPFLAGS="-I$TCLTK_PREFIX/include ${CPPFLAGS:-}"
+        export PKG_CONFIG_PATH="$TCLTK_PREFIX/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+        export PATH="$TCLTK_PREFIX/bin:$PATH"
+    fi
+fi
 
-# Make OpenMP findable without jiggery pokery
-export LDFLAGS="-L/opt/homebrew/opt/libomp/lib"
-export CFLAGS="-I/opt/homebrew/opt/libomp/include"
-export CPPFLAGS="-I/opt/homebrew/opt/libomp/include"
+# Machine-local credentials belong here, never in this repository.
+[[ -r "$HOME/.config/dotfiles/secrets.sh" ]] && source "$HOME/.config/dotfiles/secrets.sh"
 
-# Define API keys for various services
-export SYNTH_BOX_ID="xvdp2up4sy4lhecqxswseefp98fgtspw"
-export SYNTH_BOX_SECRET="qy6wFvTtm8aqtO4U40tHMnC8xqyR9wuv"
-export SYNTH_DEV_TOKEN="6pJ1tJxZHSF7mStZTykLXJWrAK8FG086"
+source "$HOME/.bashrc"
 
-# Overides to point to brew installed tinker (maybe overkill.. but hey)
-export LDFLAGS="-L/opt/homebrew/opt/tcl-tk/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/tcl-tk/include"
-export PKG_CONFIG_PATH="/opt/homebrew/opt/tcl-tk/lib/pkgconfig"
-export PATH="/opt/homebrew/opt/tcl-tk/bin:$PATH"
-
-source ~/.bashrc
-
-neofetch
+command -v neofetch >/dev/null 2>&1 && neofetch

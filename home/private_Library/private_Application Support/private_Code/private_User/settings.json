@@ -1,0 +1,28 @@
+{
+    "workbench.colorTheme": "Solarized Dark",
+    "editor.cursorStyle": "block",
+    "security.workspace.trust.untrustedFiles": "open",
+    "code-runner.clearPreviousOutput": true,
+    "code-runner.runInTerminal": true,
+    "notebook.output.scrolling": true,
+    "python.defaultInterpreterPath": "~/Research/Synthesizer/synthesizer-env/bin/python",
+    "jupyter.askForKernelRestart": false,
+    "grammarly.files.include": [
+        "**/readme.md",
+        "**/README.md",
+        "**/*.txt",
+        "*.ipynb"
+    ],
+    "editor.defaultFormatter": "ms-python.python",
+    "window.zoomLevel": 1,
+    "github.copilot.preferredAccount": "WillJRoper",
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": true,
+        "markdown": true,
+        "scminput": false
+    },
+    "terminal.integrated.tabs.enabled": false,
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "update.showReleaseNotes": false
+}
