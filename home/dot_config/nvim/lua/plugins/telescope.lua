@@ -127,6 +127,7 @@ return {
         project = { -- **Configure the Telescope Projects extension**
           base_dirs = {
             '~/Research', -- **Specify your projects directory here**
+            '~/OxRSE',
             '~/Miscellaneous',
             '~/Teaching',
             '~/dotfiles',
