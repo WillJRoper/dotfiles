@@ -6,6 +6,10 @@
 {{- $arxivStorageDir := or (env "ARXIV_STORAGE_DIR") (printf "%s/arxiv-papers" $secondBrainDir) -}}
 {
   "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "@dietrichgebert/ponytail",
+    "./plugins/caveman/plugin.js"
+  ],
   "mcp": {
     "obsidian": {
       "type": "local",
@@ -43,6 +47,15 @@
       "environment": {
         "ADS_API_TOKEN": "{env:ADS_API_TOKEN}"
       }
+    },
+    "codegraph": {
+      "type": "local",
+      "command": [
+        "codegraph",
+        "serve",
+        "--mcp"
+      ],
+      "enabled": true
     }
   },
   "tools": {
