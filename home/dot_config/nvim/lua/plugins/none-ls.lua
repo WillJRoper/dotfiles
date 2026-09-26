@@ -41,6 +41,7 @@ return {
     }
 
     null_ls.setup {
+      debounce = 500,
       sources = sources,
     }
   end,

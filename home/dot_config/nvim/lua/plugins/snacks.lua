@@ -11,12 +11,13 @@ return {
   lazy = false,
   opts = {
     -- Only enable the features we want
-    bigfile = { enabled = false },
+    bigfile = { enabled = true },
     dashboard = { enabled = false },
     notifier = { enabled = false },
     quickfile = { enabled = false },
     statuscolumn = { enabled = false },
     terminal = { enabled = false },
+    gitbrowse = { enabled = true },
     
     -- Enable scope detection and navigation
     scope = {
@@ -45,6 +46,10 @@ return {
   },
   config = function(_, opts)
     require('snacks').setup(opts)
+
+    vim.keymap.set('n', '<leader>gB', function()
+      require('snacks').gitbrowse()
+    end, { desc = '[G]it [B]rowse' })
     
     -- Additional keymaps for scope text objects
     vim.keymap.set({ 'o', 'x' }, 'is', function()

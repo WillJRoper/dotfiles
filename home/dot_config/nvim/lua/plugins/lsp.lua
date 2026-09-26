@@ -35,18 +35,13 @@ return {
       },
     },
 
-    -- Allows extra capabilities provided by nvim-cmp
-    'hrsh7th/cmp-nvim-lsp',
+    'saghen/blink.cmp',
   },
   config = function()
     -- Modern LSP setup using Neovim 0.11 features
 
-    -- Enhanced capabilities with cmp integration
-    local capabilities = vim.tbl_deep_extend(
-      'force',
-      vim.lsp.protocol.make_client_capabilities(),
-      require('cmp_nvim_lsp').default_capabilities()
-    )
+    -- Enhanced capabilities with blink.cmp integration
+    local capabilities = require('blink.cmp').get_lsp_capabilities()
 
     -- Define language server configurations using modern vim.lsp.config
     local servers = {
@@ -208,6 +203,8 @@ return {
         },
       },
 
+      codebook = {},
+
       -- Bash/Shell
       bashls = {
         filetypes = { 'sh', 'bash', 'zsh' },
@@ -346,7 +343,7 @@ return {
 
     require('mason-lspconfig').setup {
       ensure_installed = lsp_ensure_installed,
-      automatic_enable = true,
+      automatic_enable = lsp_ensure_installed,
     }
 
     -- Ensure non-LSP tools are installed (mason package names)
@@ -358,7 +355,7 @@ return {
         'shellcheck',
         'shfmt',
         'checkmake',
-        'cspell',
+        'codebook',
       },
       auto_update = false,
       run_on_start = true,
@@ -481,7 +478,7 @@ return {
           })
         end
 
-        -- Format on save disabled here - none-ls handles it to avoid conflicts
+        -- Formatting is handled by conform.nvim.
       end,
     })
   end,

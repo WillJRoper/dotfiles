@@ -1,6 +1,30 @@
 -- Standalone plugins with less than 10 lines of config go here
 return {
   {
+    'kylechui/nvim-surround',
+    version = '*',
+    event = 'VeryLazy',
+    opts = {},
+  },
+  {
+    'nvim-neotest/neotest',
+    dependencies = {
+      'nvim-neotest/nvim-nio',
+      'nvim-neotest/neotest-python',
+    },
+    keys = {
+      { '<leader>tn', function() require('neotest').run.run() end, desc = 'Test nearest' },
+      { '<leader>tf', function() require('neotest').run.run(vim.fn.expand '%') end, desc = 'Test file' },
+      { '<leader>ts', function() require('neotest').summary.toggle() end, desc = 'Test summary' },
+      { '<leader>to', function() require('neotest').output.open { enter = true } end, desc = 'Test output' },
+    },
+    opts = {
+      adapters = { 'neotest-python' },
+      status = { virtual_text = true },
+      output = { open_on_run = false },
+    },
+  },
+  {
     -- Detect tabstop and shiftwidth automatically
     'tpope/vim-sleuth',
   },
