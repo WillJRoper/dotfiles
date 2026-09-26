@@ -2,6 +2,7 @@
 tap "anomalyco/tap"
 
 brew "atuin"
+brew "awscli"
 brew "bash"
 brew "bash-completion@2"
 brew "bat"
@@ -37,10 +38,13 @@ brew "uv"
 brew "wget"
 brew "zoxide"
 
+uv "arxiv-mcp-server"
+
 cask "docker-desktop"
 cask "font-hack-nerd-font"
 cask "iterm2"
 cask "rectangle"
 cask "visual-studio-code"
+cask "vorssaint"
 cask "warp"
 cask "wezterm"

@@ -17,3 +17,5 @@ while IFS= read -r package || [ -n "$package" ]; do
 done < "$PACKAGE_FILE"
 
 npm install --global "${packages[@]}"
+
+codegraph install --target=claude --location=global --yes

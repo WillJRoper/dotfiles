@@ -37,20 +37,22 @@ Managed now:
 
 - Bash, zsh transition config, Git, GitHub CLI, Neovim, tmux, WezTerm,
   Starship, Atuin, btop, sesh, Television, OpenCode, VS Code settings, and VS
-  Code keybindings.
+  Code keybindings and extensions.
+- Vorssaint application preferences, excluding clipboard history, scratchpad
+  content, shelf files, and binary bookmark state.
+- Cloudflare skills for Claude Code and OpenCode.
 
 Still intentionally manual or pending review:
 
-- `~/.config/doom`: valuable Doom Emacs config, but it contains stale package
-  assumptions and a hard-coded Homebrew Node version. Review before adding.
+- `~/.config/doom`: intentionally not migrated.
 - `~/.emacs.d`: generated Doom checkout and package data; bootstrap Doom rather
   than copying this roughly 2 GB directory.
-- `~/.warp/settings.toml` and `~/.warp/themes`: settings refer to local image
-  assets. Use Warp sync or add the selected theme and images deliberately.
+- `~/.warp/settings.toml` and `~/.warp/themes`: intentionally not migrated.
 - `~/.ssh/config`: useful but contains infrastructure details; sanitize before
   deciding whether a public repository should manage it.
-- `~/.claude`, `~/.codex`, `~/.gemini`, and `~/.agents`: mixed hand-written
-  agents/skills and private runtime/auth state. Export only reviewed source files.
+- `~/.claude` and `~/.agents`: mixed hand-written agents/skills and private
+  runtime/auth state. Recreate supported integrations with managed installers.
+- `~/.codex` and `~/.gemini`: intentionally not migrated.
 - JupyterLab preferences and specialized scientific tool configs (`.galpyrc`,
   `.h5forest`, `.h5nry`, `.swiftsim-utils`) are optional and path-sensitive.
 - macOS Finder, Dock, keyboard, Rectangle, and screenshot defaults are not yet

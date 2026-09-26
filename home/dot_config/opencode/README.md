@@ -3,14 +3,15 @@
 OpenCode is your local AI coding CLI environment. This directory defines its MCP servers, tool permissions, and agent prompt library.
 
 - Docs: https://opencode.ai
-- Source template: `home/dot_config/opencode/opencode.json.tmpl`
+- Source template: `home/dot_config/opencode/private_opencode.json.tmpl`
 - Installed target: `~/.config/opencode/opencode.json`
 - Agent prompts: `home/dot_config/opencode/agents/*.md`
 
 ## `opencode.json.tmpl` Section Guide
 
 - template variables (top of file): build portable paths from `{{ .chezmoi.homeDir }}` and optional env overrides.
-- `mcp`: declares local MCP servers (`obsidian`, `arxiv`, `nasa_ads`) and how each is launched.
+- `mcp`: declares local and remote MCP servers for Obsidian, arXiv, NASA ADS,
+  CodeGraph, Cloudflare, and AWS.
 - `tools`: per-tool glob permissions/denials.
 - `permission.task`: allows task agents to run.
 - `permission.external_directory`: explicit external path allowlist for tool access.

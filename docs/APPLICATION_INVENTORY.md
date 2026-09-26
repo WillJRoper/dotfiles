@@ -10,6 +10,7 @@ an audit record, not an instruction to reinstall everything.
 - iTerm2
 - Rectangle
 - Visual Studio Code
+- Vorssaint
 - Warp
 - WezTerm
 
@@ -20,12 +21,13 @@ Blender is in `Brewfile.optional`.
 Review these and add wanted items to a Brewfile rather than downloading them
 ad hoc:
 
-- AltTab, Arc, Firefox, Google Chrome
+- AltTab, Arc, Firefox, Google Chrome, Tailscale
 - Obsidian, Raycast
 - Dropbox, OneDrive, Box
 - Slack, Discord, Microsoft Teams, Telegram, WhatsApp, Zoom
 - Zotero, Microsoft Word, Excel, PowerPoint
 - VLC, The Unarchiver
+- Caffeinated, Hidden Bar, Shottr, Thunderbird
 - GIMP, Inkscape, FreeCAD, Raspberry Pi Imager, balenaEtcher
 - Steam and Epic Games Launcher
 
