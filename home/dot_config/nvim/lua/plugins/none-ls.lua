@@ -30,10 +30,6 @@
 
 return {
   'nvimtools/none-ls.nvim',
-  dependencies = {
-    'nvimtools/none-ls-extras.nvim',
-    -- Note: mason-tool-installer handles tool installation (configured in lsp.lua)
-  },
   config = function()
     local null_ls = require 'null-ls'
     local diagnostics = null_ls.builtins.diagnostics -- to setup linters

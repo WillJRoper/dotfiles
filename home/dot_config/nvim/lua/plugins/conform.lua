@@ -12,7 +12,7 @@ return {
     {
       '<leader>lf',
       function()
-        require('conform').format({ async = true, lsp_fallback = true })
+        require('conform').format { async = true, lsp_format = 'fallback' }
       end,
       desc = 'Format buffer',
     },
@@ -23,7 +23,7 @@ return {
       -- `:noautocmd w` bypasses this.
       return {
         bufnr = bufnr,
-        lsp_fallback = true,
+        lsp_format = 'fallback',
         timeout_ms = 3000,
       }
     end,
