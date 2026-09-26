@@ -1,6 +1,7 @@
 # Core packages required by the managed shell, editor, and terminal configs.
 tap "anomalyco/tap"
 
+brew "age"
 brew "atuin"
 brew "awscli"
 brew "bash"

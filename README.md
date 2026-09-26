@@ -139,16 +139,31 @@ have not appeared.
 
 ### 7. Restore Secrets And Authentication
 
-Create the intentionally unmanaged secrets file:
+Secrets use Apple services without entering Git or appearing unencrypted online.
+Enable **Passwords & Keychain** and **iCloud Drive** on both Macs. In Apple
+Passwords, create an entry named `Dotfiles secrets`, use `dotfiles.local` as its
+website, and generate a strong password.
+
+On the existing Mac, back up the private file. Paste the generated password when
+`age` prompts for a passphrase:
 
 ```bash
-mkdir -p "$HOME/.config/dotfiles"
-touch "$HOME/.config/dotfiles/secrets.sh"
-chmod 600 "$HOME/.config/dotfiles/secrets.sh"
+dotfiles-secrets-icloud backup
 ```
 
-Populate it from a password manager with only variables needed on this machine,
-including Obsidian and NASA ADS values when those MCP servers are used:
+Only authenticated `age` ciphertext is written to iCloud Drive. The passphrase
+syncs separately through end-to-end encrypted Apple Passwords. After applying
+these dotfiles on the new Mac and allowing both services to sync, restore it:
+
+```bash
+dotfiles-secrets-icloud status
+dotfiles-secrets-icloud restore
+```
+
+Restore refuses to overwrite an existing file. The restored directory is mode
+`0700` and `secrets.sh` is mode `0600`. Never run `chezmoi add` or `git add` on
+that file. If creating it manually instead, use only variables needed on this
+machine. Obsidian and NASA ADS examples:
 
 ```bash
 export OBSIDIAN_API_KEY="..."
