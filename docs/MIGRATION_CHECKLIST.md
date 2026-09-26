@@ -7,15 +7,17 @@ home-directory audit.
 ## Secure Material
 
 - Rotate the Synthesizer credentials that were previously committed.
-- Rotate the R2 access credentials currently present in the live
-  `~/.bash_profile`; they are not retained in the managed source.
+- Keep R2 and other machine credentials only in
+  `~/.config/dotfiles/secrets.sh`, never in shell files managed by Git.
+- Back up the secrets file with `dotfiles-secrets-icloud backup`; only encrypted
+  ciphertext belongs in iCloud Drive.
 - Restore SSH private keys and `~/.ssh/config` through an encrypted channel.
 - Restore GPG keys separately if they are still used.
 - Authenticate GitHub CLI with `gh auth login`; never copy `gh/hosts.yml` here.
 - Authenticate Atuin with `atuin login` and sync history if wanted.
-- Re-authenticate OpenCode, Claude, Codex, Gemini, cloud CLIs, and MCP services.
-- Recreate `~/.config/dotfiles/secrets.sh`, set mode `600`, and add required API
-  variables from a password manager.
+- Re-authenticate OpenCode, Claude, cloud CLIs, and MCP services.
+- Restore `~/.config/dotfiles/secrets.sh` with
+  `dotfiles-secrets-icloud restore` after Apple Passwords and iCloud Drive sync.
 - Restore AWS credentials, Docker credentials, and similar files separately.
 
 ## Data And Applications
@@ -83,8 +85,9 @@ xargs -n 1 code --install-extension < vscode-extensions.txt
 ## Final Old-Laptop Check
 
 ```bash
-git -C "$HOME/.local/share/chezmoi" status
-git -C "$HOME/.local/share/chezmoi" log --oneline origin/main..HEAD
+REPO_ROOT="$(dirname "$(chezmoi source-path)")"
+git -C "$REPO_ROOT" status
+git -C "$REPO_ROOT" log --oneline origin/main..HEAD
 chezmoi diff
 ```
 
