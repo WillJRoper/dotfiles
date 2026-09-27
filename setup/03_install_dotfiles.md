@@ -11,6 +11,26 @@ chezmoi init https://github.com/WillJRoper/dotfiles.git
 The repository is stored at `~/.local/share/chezmoi`. Managed source lives under
 its `home/` directory because `.chezmoiroot` sets the source root.
 
+## Optional Agent-Guided Setup
+
+To let OpenCode guide the remaining phases, install only its CLI first:
+
+```bash
+brew install anomalyco/tap/opencode
+opencode "$HOME/.local/share/chezmoi"
+```
+
+Complete provider authentication in the interactive interface, then send:
+
+```text
+Read setup/AGENT_SETUP_PROMPT.md and follow it exactly.
+```
+
+Keep the session interactive and do not use `--auto`. The prompt requires clear
+human handoffs for secrets, authentication, passphrases, system permissions,
+external portals, and approval before applying changes. Continue below instead
+for fully manual setup.
+
 ## Install Core Software
 
 Install packages required by managed configuration:

@@ -18,6 +18,10 @@ iCloud backup and keep the current Mac available during migration.
 
 Do not skip preview, secret rotation, or final verification steps.
 
+For agent-guided setup, complete phases 1 and 2 plus the clone step in phase 3,
+then follow [the setup agent prompt](setup/AGENT_SETUP_PROMPT.md). It keeps
+secrets and human-only actions outside agent automation.
+
 ## Managed Configuration
 
 - Bash aliases, functions, prompt, completion, history, and vi-style editing
