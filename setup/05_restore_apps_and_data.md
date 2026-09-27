@@ -6,6 +6,13 @@ Core Homebrew applications were installed in phase 3. Review
 [`../docs/APPLICATION_INVENTORY.md`](../docs/APPLICATION_INVENTORY.md) before
 installing anything else.
 
+The first `chezmoi apply` also restores the reviewed Dock layout, including its
+small spacer groups. To reapply only that layout after reviewing the script:
+
+```bash
+bash "$(chezmoi source-path)/run_once_configure-dock.sh"
+```
+
 Install only applications still needed:
 
 - Mac App Store applications
@@ -14,6 +21,11 @@ Install only applications still needed:
 - Cloud storage clients
 - Hardware utilities
 - Research-specific software
+
+Core setup includes Arc, Raycast, Slack, Tailscale, Obsidian, Microsoft Teams,
+WhatsApp, Zoom, VLC, Thunderbird, and Steam. Tailscale requires approval in
+System Settings for its system extension. Sign in to each service when first
+opened; the setup agent must pause for these human interactions.
 
 Avoid automatically copying legacy cleaners, old VPN clients, duplicate app
 versions, or generated application state.

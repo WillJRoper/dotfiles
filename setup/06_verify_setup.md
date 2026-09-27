@@ -19,6 +19,7 @@ npm ls --global --depth=0
 uv tool list
 gh extension list
 command -v bash nvim tmux opencode codegraph age
+command -v dockutil
 ```
 
 If optional packages were installed:
@@ -65,6 +66,8 @@ Open and exercise:
 - WezTerm and iTerm2
 - VS Code
 - Vorssaint
+- Arc and Raycast
+- Obsidian, Tailscale, Slack, Teams, WhatsApp, Zoom, Thunderbird, VLC, and Steam
 - OpenCode and Claude Code
 - Docker Desktop
 - Required research and licensed applications

@@ -6,13 +6,24 @@ an audit record, not an instruction to reinstall everything.
 ## Installed By The Core Brewfile
 
 - Docker Desktop
+- Arc
 - Hack Nerd Font
 - iTerm2
+- Microsoft Teams
+- Obsidian
+- Raycast
 - Rectangle
+- Slack
+- Steam
+- Tailscale
+- Thunderbird
 - Visual Studio Code
+- VLC
 - Vorssaint
 - Warp
 - WezTerm
+- WhatsApp
+- Zoom
 
 Blender is in `Brewfile.optional`.
 
@@ -21,15 +32,14 @@ Blender is in `Brewfile.optional`.
 Review these and add wanted items to a Brewfile rather than downloading them
 ad hoc:
 
-- AltTab, Arc, Firefox, Google Chrome, Tailscale
-- Obsidian, Raycast
+- AltTab, Firefox, Google Chrome
 - Dropbox, OneDrive, Box
-- Slack, Discord, Microsoft Teams, Telegram, WhatsApp, Zoom
+- Discord, Telegram
 - Zotero, Microsoft Word, Excel, PowerPoint
-- VLC, The Unarchiver
-- Caffeinated, Hidden Bar, Shottr, Thunderbird
+- The Unarchiver
+- Caffeinated, Hidden Bar, Shottr
 - GIMP, Inkscape, FreeCAD, Raspberry Pi Imager, balenaEtcher
-- Steam and Epic Games Launcher
+- Epic Games Launcher
 
 ## Licensed Or Vendor-Managed Software
 

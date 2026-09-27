@@ -40,8 +40,9 @@ brew bundle --file="$HOME/.local/share/chezmoi/Brewfile"
 ```
 
 This installs Bash, Chezmoi, development CLI tools, Node.js, uv, `age`, AWS CLI,
-OpenCode, Docker Desktop, VS Code, terminal applications, Vorssaint, and the
-arXiv MCP tool.
+OpenCode, Docker Desktop, VS Code, terminal applications, Vorssaint, the
+reviewed core desktop apps in `docs/APPLICATION_INVENTORY.md`, and the arXiv MCP
+tool.
 
 Optional compiler, scientific, presentation, Blender, and Gemini packages are
 separate:

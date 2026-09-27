@@ -61,6 +61,9 @@ Do not skip preview, secret rotation, or final verification steps.
 - Neovim configuration and pinned plugin lockfile
 - tmux, TPM, session persistence, and sesh integration
 - Starship, WezTerm, Atuin, btop, neofetch, Television, and The Fuck
+- Arc, Raycast, Slack, Tailscale, Obsidian, Teams, WhatsApp, Zoom, VLC,
+  Thunderbird, and Steam
+- Reproducible Dock ordering, small spacer groups, stack, and visual settings
 - OpenCode agents, MCP servers, Cloudflare skills, Caveman, and Ponytail
 - VS Code settings, keybindings, and reviewed extensions
 - Safe Vorssaint preferences
