@@ -47,6 +47,26 @@ brew doctor
 Review `brew doctor` warnings rather than applying suggested destructive changes
 blindly.
 
+## Bash
+
+Install Homebrew Bash and make it the login shell before continuing:
+
+```bash
+brew install bash
+BREW_BASH="$(brew --prefix)/bin/bash"
+grep -qxF "$BREW_BASH" /etc/shells || echo "$BREW_BASH" | sudo tee -a /etc/shells
+chsh -s "$BREW_BASH"
+```
+
+Close and reopen the terminal, then confirm:
+
+```bash
+echo "$SHELL"
+bash --version
+```
+
+`echo "$SHELL"` should print the Homebrew Bash path.
+
 ## Chezmoi
 
 Install Chezmoi, but do not initialize with `--apply`:

@@ -114,21 +114,9 @@ CodeGraph integration, Caveman, Cloudflare skills, VS Code extensions, and safe
 Vorssaint preferences. It does not copy authentication state, clipboard history,
 scratchpad content, or application caches.
 
-## Configure Bash
-
-Use Homebrew Bash as the login shell:
+Confirm the managed secrets helper is available:
 
 ```bash
-BREW_BASH="$(brew --prefix)/bin/bash"
-grep -qxF "$BREW_BASH" /etc/shells || echo "$BREW_BASH" | sudo tee -a /etc/shells
-chsh -s "$BREW_BASH"
-```
-
-Close and reopen the terminal, then confirm:
-
-```bash
-echo "$SHELL"
-bash --version
 command -v dotfiles-secrets-icloud
 ```
 

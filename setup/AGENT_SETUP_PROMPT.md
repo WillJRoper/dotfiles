@@ -6,9 +6,10 @@ follow `README.md`, `setup/01_prepare_current_mac.md` through
 truth.
 
 The user has manually installed macOS updates, Xcode command-line tools,
-Homebrew, Chezmoi, and OpenCode, then cloned this repository with `chezmoi init`.
-Verify those assumptions before continuing. Confirm phase 1 was completed on
-the old Mac; do not run old-Mac preparation commands on this Mac.
+Homebrew, Homebrew Bash as the login shell, Chezmoi, and OpenCode, then cloned
+this repository with `chezmoi init`. Verify those assumptions before continuing.
+Confirm phase 1 was completed on the old Mac; do not run old-Mac preparation
+commands on this Mac.
 
 ## Operating Rules
 
