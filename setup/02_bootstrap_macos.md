@@ -36,8 +36,26 @@ Install Homebrew:
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-Follow the installer instructions to load `brew shellenv` into the current
-terminal. Confirm installation:
+Persist Homebrew's environment for the initial zsh session and the first Bash
+login, then load it into the current terminal:
+
+```bash
+BREW_BIN="/opt/homebrew/bin/brew"
+[ -x "$BREW_BIN" ] || BREW_BIN="/usr/local/bin/brew"
+BREW_SHELLENV="eval \"\$($BREW_BIN shellenv)\""
+
+for PROFILE in "$HOME/.zprofile" "$HOME/.bash_profile"; do
+    touch "$PROFILE"
+    grep -qxF "$BREW_SHELLENV" "$PROFILE" || \
+        printf '%s\n' "$BREW_SHELLENV" >> "$PROFILE"
+done
+
+eval "$("$BREW_BIN" shellenv)"
+```
+
+Chezmoi later replaces the temporary `.bash_profile` with the managed version,
+which contains equivalent Apple Silicon and Intel Homebrew initialization.
+Confirm installation:
 
 ```bash
 brew --version
