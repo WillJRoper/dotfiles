@@ -67,7 +67,9 @@ The repository does not migrate:
   open -a Vorssaint
   ```
 
-  Verify shortcuts, keep-awake, monitoring, shelf, and URL cleaner preferences.
+  The sanitized old-Mac activation and capability reference is
+  `setup/vorssaint-state.toml`. Verify shortcuts, keep-awake, monitoring, shelf,
+  and URL cleaner preferences.
 - Open Neovim and allow plugins/tooling to finish initial installation.
 - Open Docker Desktop once to complete privileged helper setup.
 

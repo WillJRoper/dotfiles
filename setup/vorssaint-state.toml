@@ -1,0 +1,74 @@
+# Sanitized Vorssaint state captured from the old Mac.
+# Contains activation/onboarding and detected feature availability only.
+# Excludes clipboard contents, scratchpad, shelf data, bookmarks, paths,
+# per-app volumes, window state, updater state, and other runtime data.
+
+[activation]
+autoQuitEnabled = true
+clipboardHistoryEnabled = true
+dockPreviewEnabled = true
+featuresOnboardingVersion = 4
+hasOnboarded = true
+keepAwakeActiveIcon = "vorssaint"
+onboardingStep = 0
+screenshotShortcutEnabled = false
+scrollInverterHorizontalEnabled = false
+shelfEnabled = true
+switcherSearchPinEnabled = true
+switcherTakeOverSystemShortcuts = true
+urlCleanerEnabled = true
+whatsAppDownloadsAccessConfirmed = true
+
+[available]
+appUpdates = true
+autoQuit = true
+brightness = true
+cameraPreview = false
+cleaner = true
+cleaningMode = true
+clipboardHistory = true
+colorPicker = true
+commandBar = false
+diskImageInstaller = false
+dockClick = true
+dockPreview = true
+extraBrightness = false
+fanControl = true
+finderCutPaste = false
+finderRename = false
+focusFollowsMouse = true
+homebrew = true
+keepAwake = true
+keyboardDebounce = false
+mediaTools = false
+micMute = true
+middleClick = false
+mixer = true
+monitorCPU = true
+monitorDisk = true
+monitorGPU = true
+monitorMemory = true
+monitorNetwork = true
+monitorPower = true
+mouseButtonShortcuts = false
+mouseNavigation = false
+musicBlock = true
+pastePlain = false
+quickLauncher = true
+quickToggles = true
+radialMenu = false
+scratchpad = false
+screenOCR = true
+screenRecorder = false
+screenshot = true
+scrollInverter = false
+shelf = true
+smoothScroll = true
+soundOutputSwitcher = true
+superKey = false
+switcher = true
+textSnippets = false
+uninstaller = true
+urlCleaner = true
+windowLayout = false
+windowMaximizer = false
