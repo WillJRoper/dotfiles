@@ -11,6 +11,12 @@
 {{-   $isHPC = true -}}
 {{- end -}}
 
+encryption = "age"
+
+[age]
+    identity = "~/.config/chezmoi/key.txt"
+    recipient = "age1pmsftlzm44lr74upjwz64jax5x724x7nwjfwmhg8mvs4laaeaars6agxhk"
+
 [data]
     enable_copilot = true
     isHPC = {{ $isHPC }}
@@ -21,5 +27,5 @@
     command = "nvim"
 
 [git]
-    autoCommit = true
+    autoCommit = false
     autoPush = false

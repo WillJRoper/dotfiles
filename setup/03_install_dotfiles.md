@@ -47,17 +47,16 @@ nvim "$HOME/.config/chezmoi/key.txt"
 chmod 600 "$HOME/.config/chezmoi/key.txt"
 ```
 
-Configure Chezmoi with `chezmoi edit-config`:
+Verify the restored identity matches this repository's public recipient:
 
-```toml
-encryption = "age"
-
-[age]
-identity = "~/.config/chezmoi/key.txt"
-recipient = "age1pmsftlzm44lr74upjwz64jax5x724x7nwjfwmhg8mvs4laaeaars6agxhk"
+```bash
+test "$(age-keygen -y "$HOME/.config/chezmoi/key.txt")" = \
+    "age1pmsftlzm44lr74upjwz64jax5x724x7nwjfwmhg8mvs4laaeaars6agxhk" \
+    && echo "Age identity verified"
 ```
 
-Keep age identity file out of Git. Back it up in Apple Passwords.
+The repository's Chezmoi config template supplies the encryption settings. Keep
+the age identity file out of Git and backed up in Apple Passwords.
 
 ## Preview Changes
 

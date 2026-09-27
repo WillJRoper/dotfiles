@@ -37,17 +37,23 @@ Open a new terminal so `.bash_profile` loads the restored variables.
 
 ## Restore SSH And GPG
 
-Copy SSH private keys through the encrypted channel chosen in phase 1. SSH
-config is restored by `chezmoi apply` from its encrypted source. Set restrictive
-permissions:
+SSH config was restored by `chezmoi apply`. Generate fresh Ed25519 keys using
+the filenames referenced by SSH config and Git config:
 
 ```bash
+mkdir -p "$HOME/.ssh"
 chmod 700 "$HOME/.ssh"
-chmod 600 \
-    "$HOME/.ssh/config" "$HOME/.ssh/"*_key "$HOME/.ssh/id_"* \
-    2>/dev/null || true
-chmod 644 "$HOME/.ssh/"*.pub 2>/dev/null || true
+ssh-keygen -t ed25519 -a 100 -f "$HOME/.ssh/id_rsa" -C "HPC access"
+ssh-keygen -t ed25519 -a 100 -f "$HOME/.ssh/artemis" -C "Artemis access"
+ssh-keygen -t ed25519 -a 100 -f "$HOME/.ssh/ghub_key" -C "GitHub"
+ssh-add --apple-use-keychain \
+    "$HOME/.ssh/id_rsa" "$HOME/.ssh/artemis" "$HOME/.ssh/ghub_key"
 ```
+
+Use passphrases. Register `id_rsa.pub` with COSMA, ARC, and BMRC; register
+`artemis.pub` with Artemis. Those connections will fail until administrators or
+self-service portals install the replacement public keys. Do not copy the old
+private keys unless a service cannot rotate them.
 
 Restore GPG keys separately if they are still required. Never commit private
 keys.
@@ -56,6 +62,11 @@ keys.
 
 ```bash
 gh auth login
+gh auth setup-git
+KEY_TITLE="$(scutil --get ComputerName)"
+gh ssh-key add "$HOME/.ssh/ghub_key.pub" --type authentication --title "$KEY_TITLE"
+gh ssh-key add "$HOME/.ssh/ghub_key.pub" --type signing --title "$KEY_TITLE signing"
+chezmoi apply -- "$HOME/.gitconfig"
 git lfs install
 atuin login
 aws login --profile agent-toolkit

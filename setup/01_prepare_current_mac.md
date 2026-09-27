@@ -72,8 +72,10 @@ The second command should produce no commits after pushing.
   Never store the age identity file in Git.
 - Confirm projects, `~/SecondBrain`, `~/org`, documents, and datasets have an
   authoritative remote or encrypted backup.
-- Transfer SSH private keys through an encrypted channel. SSH config is managed
-  as an encrypted Chezmoi file.
+- Confirm each SSH service offers a way to register replacement public keys.
+  Generate fresh private keys on the new Mac; do not transfer old ones unless a
+  service cannot rotate them. SSH config is managed as an encrypted Chezmoi
+  file.
 - Export GPG private keys securely if still required.
 - Confirm browser, Atuin, Dropbox, OneDrive, and Box sync has completed.
 - Keep AWS, Docker, GitHub, and other authentication databases out of Git.

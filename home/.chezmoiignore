@@ -9,3 +9,6 @@ dot_config/nvim/CLAUDE.md
 dot_config/opencode/node_modules/
 dot_config/opencode/bun.lock
 dot_config/opencode/package-lock.json
+{{ if .isHPC }}
+.ssh/config
+{{ end }}

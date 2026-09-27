@@ -29,6 +29,7 @@ Do not skip preview, secret rotation, or final verification steps.
 - OpenCode agents, MCP servers, Cloudflare skills, Caveman, and Ponytail
 - VS Code settings, keybindings, and reviewed extensions
 - Safe Vorssaint preferences
+- Encrypted SSH config; private SSH keys remain machine-local
 - Encrypted iCloud transfer helper for machine-local secrets
 - Python environment helpers and utility scripts
 

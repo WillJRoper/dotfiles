@@ -34,6 +34,12 @@ echo "$SHELL"
 dotfiles-secrets-icloud status
 stat -f '%Sp %N' "$HOME/.config/dotfiles" "$HOME/.config/dotfiles/secrets.sh"
 bash -n "$HOME/.bash_profile" "$HOME/.bashrc" "$HOME/.config/dotfiles/secrets.sh"
+test "$(stat -f '%Lp' "$HOME/.config/chezmoi/key.txt")" = 600
+test "$(age-keygen -y "$HOME/.config/chezmoi/key.txt")" = \
+    "age1pmsftlzm44lr74upjwz64jax5x724x7nwjfwmhg8mvs4laaeaars6agxhk"
+ssh-keygen -y -f "$HOME/.ssh/id_rsa" >/dev/null
+ssh-keygen -y -f "$HOME/.ssh/artemis" >/dev/null
+ssh-keygen -y -f "$HOME/.ssh/ghub_key" >/dev/null
 ```
 
 Expected shell is Homebrew Bash. Both local and iCloud secret status values
