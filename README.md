@@ -6,21 +6,52 @@ smaller compatible subset.
 
 ## New Mac Setup
 
-Follow these guides in order. They assume a clean macOS installation without an
-iCloud backup and keep the current Mac available during migration.
+Start here. These guides assume a clean macOS installation without an iCloud
+backup. Keep the current Mac available until final verification passes.
 
-1. [`setup/01_prepare_current_mac.md`](setup/01_prepare_current_mac.md)
-2. [`setup/02_bootstrap_macos.md`](setup/02_bootstrap_macos.md)
-3. [`setup/03_install_dotfiles.md`](setup/03_install_dotfiles.md)
-4. [`setup/04_restore_secrets_and_auth.md`](setup/04_restore_secrets_and_auth.md)
-5. [`setup/05_restore_apps_and_data.md`](setup/05_restore_apps_and_data.md)
-6. [`setup/06_verify_setup.md`](setup/06_verify_setup.md)
+### 1. Prepare The Old Mac
+
+Complete [`setup/01_prepare_current_mac.md`](setup/01_prepare_current_mac.md) on
+the old Mac. This backs up secrets, stores the age identity, and confirms the
+repository and personal data are available remotely.
+
+### 2. Bootstrap The New Mac
+
+On the new Mac, complete
+[`setup/02_bootstrap_macos.md`](setup/02_bootstrap_macos.md), then run the
+**Clone Without Applying** section of
+[`setup/03_install_dotfiles.md`](setup/03_install_dotfiles.md). Do not use
+`chezmoi init --apply`.
+
+### 3. Choose A Setup Path
+
+For agent-guided setup, install and launch OpenCode from the cloned repository:
+
+```bash
+brew install anomalyco/tap/opencode
+opencode "$HOME/.local/share/chezmoi"
+```
+
+Complete provider authentication, then send:
+
+```text
+Read setup/AGENT_SETUP_PROMPT.md and follow it exactly.
+```
+
+Keep this session interactive; do not use `--auto`. The
+[agent prompt](setup/AGENT_SETUP_PROMPT.md) pauses clearly for secrets,
+passphrases, authentication, system permissions, external portals, and approval
+before applying changes.
+
+For manual setup, continue from **Install Core Software** in phase 3, then
+follow the remaining guides in order:
+
+1. [`setup/03_install_dotfiles.md`](setup/03_install_dotfiles.md)
+2. [`setup/04_restore_secrets_and_auth.md`](setup/04_restore_secrets_and_auth.md)
+3. [`setup/05_restore_apps_and_data.md`](setup/05_restore_apps_and_data.md)
+4. [`setup/06_verify_setup.md`](setup/06_verify_setup.md)
 
 Do not skip preview, secret rotation, or final verification steps.
-
-For agent-guided setup, complete phases 1 and 2 plus the clone step in phase 3,
-then follow [the setup agent prompt](setup/AGENT_SETUP_PROMPT.md). It keeps
-secrets and human-only actions outside agent automation.
 
 ## Managed Configuration
 
