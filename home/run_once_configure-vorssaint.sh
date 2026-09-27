@@ -4,6 +4,10 @@ set -euo pipefail
 if [ "$(uname -s)" != "Darwin" ]; then
     exit 0
 fi
+if pgrep -x Vorssaint >/dev/null 2>&1; then
+    echo "Quit Vorssaint before applying its preferences" >&2
+    exit 1
+fi
 
 domain="com.vorssaint.utils"
 

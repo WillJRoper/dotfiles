@@ -58,8 +58,16 @@ The repository does not migrate:
 ## Component Checks
 
 - Confirm VS Code extensions installed from `~/.config/vscode/extensions.txt`.
-- Open Vorssaint and verify shortcuts, keep-awake, monitoring, shelf, and URL
-  cleaner preferences.
+- Open Vorssaint once and complete its onboarding and permission prompts. Quit
+  it completely, then reapply its managed preferences because first launch can
+  replace defaults written during the initial Chezmoi apply:
+
+  ```bash
+  bash "$(chezmoi source-path)/run_once_configure-vorssaint.sh"
+  open -a Vorssaint
+  ```
+
+  Verify shortcuts, keep-awake, monitoring, shelf, and URL cleaner preferences.
 - Open Neovim and allow plugins/tooling to finish initial installation.
 - Open Docker Desktop once to complete privileged helper setup.
 
