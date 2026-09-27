@@ -59,11 +59,16 @@ HDF5 1.10 when Homebrew no longer supplies the required historical version.
 ## Configure Chezmoi Encryption
 
 Find the `Chezmoi age identity` entry in Apple Passwords (`dotfiles` username,
-`chezmoi` website). Restore its password, the complete `AGE-SECRET-KEY-...`
-line, before applying encrypted files:
+`chezmoi` website). Copy the repository's identity template, then replace its
+`AGE-SECRET-KEY-REPLACE-ME` line with the complete `AGE-SECRET-KEY-...` password
+from Apple Passwords:
 
 ```bash
 mkdir -p "$HOME/.config/chezmoi"
+chmod 700 "$HOME/.config/chezmoi"
+install -m 600 \
+    "$HOME/.local/share/chezmoi/setup/chezmoi-age-key.txt.example" \
+    "$HOME/.config/chezmoi/key.txt"
 nvim "$HOME/.config/chezmoi/key.txt"
 chmod 600 "$HOME/.config/chezmoi/key.txt"
 ```
