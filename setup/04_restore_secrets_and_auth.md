@@ -37,8 +37,9 @@ Open a new terminal so `.bash_profile` loads the restored variables.
 
 ## Restore SSH And GPG
 
-Copy SSH private keys and `~/.ssh/config` through the encrypted channel chosen in
-phase 1. Set restrictive permissions:
+Copy SSH private keys through the encrypted channel chosen in phase 1. SSH
+config is restored by `chezmoi apply` from its encrypted source. Set restrictive
+permissions:
 
 ```bash
 chmod 700 "$HOME/.ssh"

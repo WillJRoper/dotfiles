@@ -11,7 +11,10 @@ home-directory audit.
   `~/.config/dotfiles/secrets.sh`, never in shell files managed by Git.
 - Back up the secrets file with `dotfiles-secrets-icloud backup`; only encrypted
   ciphertext belongs in iCloud Drive.
-- Restore SSH private keys and `~/.ssh/config` through an encrypted channel.
+- Store the Chezmoi age identity in Apple Passwords using `dotfiles` as the
+  username and `chezmoi` as the website; never commit it.
+- Restore SSH private keys through an encrypted channel; `~/.ssh/config` is an
+  encrypted Chezmoi file.
 - Restore GPG keys separately if they are still used.
 - Authenticate GitHub CLI with `gh auth login`; never copy `gh/hosts.yml` here.
 - Authenticate Atuin with `atuin login` and sync history if wanted.
@@ -50,8 +53,8 @@ Still intentionally manual or pending review:
 - `~/.emacs.d`: generated Doom checkout and package data; bootstrap Doom rather
   than copying this roughly 2 GB directory.
 - `~/.warp/settings.toml` and `~/.warp/themes`: intentionally not migrated.
-- `~/.ssh/config`: useful but contains infrastructure details; sanitize before
-  deciding whether a public repository should manage it.
+- SSH private keys remain manual; encrypted `~/.ssh/config` is managed by
+  Chezmoi after restoring the age identity.
 - `~/.claude` and `~/.agents`: mixed hand-written agents/skills and private
   runtime/auth state. Recreate supported integrations with managed installers.
 - `~/.codex` and `~/.gemini`: intentionally not migrated.

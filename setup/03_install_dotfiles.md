@@ -35,6 +35,30 @@ brew bundle --file="$HOME/.local/share/chezmoi/Brewfile.optional"
 Review `Brewfile.optional` first. Use project environments for software such as
 HDF5 1.10 when Homebrew no longer supplies the required historical version.
 
+## Configure Chezmoi Encryption
+
+Find the `Chezmoi age identity` entry in Apple Passwords (`dotfiles` username,
+`chezmoi` website). Restore its password, the complete `AGE-SECRET-KEY-...`
+line, before applying encrypted files:
+
+```bash
+mkdir -p "$HOME/.config/chezmoi"
+nvim "$HOME/.config/chezmoi/key.txt"
+chmod 600 "$HOME/.config/chezmoi/key.txt"
+```
+
+Configure Chezmoi with `chezmoi edit-config`:
+
+```toml
+encryption = "age"
+
+[age]
+identity = "~/.config/chezmoi/key.txt"
+recipient = "age1pmsftlzm44lr74upjwz64jax5x724x7nwjfwmhg8mvs4laaeaars6agxhk"
+```
+
+Keep age identity file out of Git. Back it up in Apple Passwords.
+
 ## Preview Changes
 
 Do not skip this step:

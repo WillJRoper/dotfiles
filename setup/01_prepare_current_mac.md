@@ -60,9 +60,20 @@ The second command should produce no commits after pushing.
 
 ## Secure Non-Dotfile Material
 
+- Store the `AGE-SECRET-KEY-...` line from
+  `~/.config/chezmoi/key.txt` in Apple Passwords:
+
+  - Name: `Chezmoi age identity`
+  - Username: `dotfiles`
+  - Website: `chezmoi`
+  - Password: the complete `AGE-SECRET-KEY-...` line
+  - Note: the `age1...` public key from the file's `# public key:` line
+
+  Never store the age identity file in Git.
 - Confirm projects, `~/SecondBrain`, `~/org`, documents, and datasets have an
   authoritative remote or encrypted backup.
-- Transfer SSH private keys and `~/.ssh/config` through an encrypted channel.
+- Transfer SSH private keys through an encrypted channel. SSH config is managed
+  as an encrypted Chezmoi file.
 - Export GPG private keys securely if still required.
 - Confirm browser, Atuin, Dropbox, OneDrive, and Box sync has completed.
 - Keep AWS, Docker, GitHub, and other authentication databases out of Git.
@@ -75,6 +86,7 @@ continuing.
 - Dotfiles repository is clean and pushed.
 - Rotated credentials are in the local secrets file.
 - Encrypted secrets backup is present in iCloud Drive.
+- Chezmoi age identity is present in Apple Passwords.
 - Important projects and personal data have separate backups.
 
 Continue to [`02_bootstrap_macos.md`](02_bootstrap_macos.md).
